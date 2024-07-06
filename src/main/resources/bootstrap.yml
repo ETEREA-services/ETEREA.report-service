@@ -1,0 +1,55 @@
+app:
+  eureka: 8761
+  add-properties: true
+  logging: debug
+  livereload:
+    enabled: true
+    port: 35780
+  mail:
+    username: reportes.termalia@gmail.com
+    password: uulgftuqhgjdihgv
+
+server:
+  port: 8080
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka:@eureka-service:${app.eureka}/eureka
+
+spring:
+  application:
+    name: core-service
+  devtools:
+    livereload:
+      enabled: ${app.livereload.enabled}
+      port: ${app.livereload.port}
+    add-properties: ${app.add-properties}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${app.mail.username}
+    password: ${app.mail.password}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+logging:
+  level:
+    eterea.report.api.rest: ${app.logging}
+    web: ${app.logging}
+    org:
+      hibernate:
+        SQL: ${app.logging}
+      springframework.cloud.config: ${app.logging}
