@@ -6,8 +6,8 @@ app:
     enabled: true
     port: 35780
   mail:
-    username: reportes.termalia@gmail.com
-    password: uulgftuqhgjdihgv
+    username: uid
+    password: pwd
 
 server:
   port: 8080
@@ -23,7 +23,7 @@ eureka:
 
 spring:
   application:
-    name: core-service
+    name: report-service
   devtools:
     livereload:
       enabled: ${app.livereload.enabled}
@@ -50,6 +50,4 @@ logging:
     eterea.report.api.rest: ${app.logging}
     web: ${app.logging}
     org:
-      hibernate:
-        SQL: ${app.logging}
       springframework.cloud.config: ${app.logging}
