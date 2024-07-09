@@ -8,6 +8,8 @@ app:
   mail:
     username: uid
     password: pwd
+  mailcopy:
+    account: null
 
 server:
   port: 8080
