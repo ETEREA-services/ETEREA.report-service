@@ -1,10 +1,7 @@
 app:
-  eureka: 8761
-  add-properties: true
+  port: 8080
   logging: debug
-  livereload:
-    enabled: true
-    port: 35780
+  eureka: 8761
   mail:
     username: uid
     password: pwd
@@ -12,7 +9,7 @@ app:
     account: null
 
 server:
-  port: 8080
+  port: ${app.port}
 
 eureka:
   instance:
@@ -26,11 +23,6 @@ eureka:
 spring:
   application:
     name: report-service
-  devtools:
-    livereload:
-      enabled: ${app.livereload.enabled}
-      port: ${app.livereload.port}
-    add-properties: ${app.add-properties}
   mail:
     host: smtp.gmail.com
     port: 587
