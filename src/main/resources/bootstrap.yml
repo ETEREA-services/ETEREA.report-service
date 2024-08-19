@@ -1,7 +1,7 @@
 app:
   port: 8080
-  logging: debug
   eureka: 8761
+  logging: debug
   mail:
     username: uid
     password: pwd
