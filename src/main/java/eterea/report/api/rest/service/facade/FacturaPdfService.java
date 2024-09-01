@@ -425,7 +425,15 @@ public class FacturaPdfService {
             table.setWidthPercentage(100);
             // Agregando Observaciones
             paragraph = new Paragraph(new Phrase("Observaciones: ", new Font(Font.COURIER, 10, Font.BOLD)));
-            String observaciones = clienteMovimiento.getObservaciones();
+            String observaciones = "";
+
+            if (clienteMovimiento.getObservaciones() != null) {
+                observaciones += clienteMovimiento.getObservaciones();
+            }
+            if (clienteMovimiento.getReservaId() > 0) {
+                observaciones += " Reserva: ";
+                observaciones += clienteMovimiento.getReservaId() + " ";
+            }
             if (registroCae.getClienteMovimientoIdAsociado() != null) {
                 observaciones += " Asoc: ";
                 if (comprobanteAfipAsociado != null) {
