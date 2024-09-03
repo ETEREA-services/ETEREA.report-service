@@ -352,7 +352,7 @@ public class FacturaPdfService {
             //
             document.add(table);
 
-            int lineas = 24;
+            int lineas = discriminar ? 20 : 24;
 
             for (ArticuloMovimientoDto articuloMovimiento : articuloMovimientoClient
                     .findAllByClienteMovimientoId(clienteMovimiento.getClienteMovimientoId())) {
