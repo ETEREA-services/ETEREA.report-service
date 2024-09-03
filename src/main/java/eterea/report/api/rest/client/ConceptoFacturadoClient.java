@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "core-service/api/core/concetpFacturado")
+@FeignClient(name = "core-service/api/core/conceptoFacturado")
 public interface ConceptoFacturadoClient {
 
     @GetMapping("/articuloMovimiento/{articuloMovimientoId}")
