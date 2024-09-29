@@ -25,9 +25,7 @@ import java.awt.*;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
+import java.util.*;
 import java.util.List;
 
 import static com.google.zxing.client.j2se.MatrixToImageConfig.BLACK;
@@ -111,8 +109,8 @@ public class FacturaPdfService {
             String url = "https://www.afip.gob.ar/fe/qr/?p=";
             CodigoQR codigoQR = new CodigoQR();
             codigoQR.setVer(1);
-            codigoQR.setFecha(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(ToolService.stringDDMMYYYY2OffsetDateTime(registroCae.getFecha())));
-            codigoQR.setCuit(empresa.getCuit().replaceAll("\\-", ""));
+            codigoQR.setFecha(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(ToolService.stringDDMMYYYY2OffsetDateTime(Objects.requireNonNull(registroCae.getFecha()))));
+            codigoQR.setCuit(Objects.requireNonNull(empresa.getCuit()).replaceAll("-", ""));
             codigoQR.setPtoVta(registroCae.getPuntoVenta());
             codigoQR.setTipoCmp(registroCae.getComprobanteId());
             codigoQR.setNroCmp(registroCae.getNumeroComprobante());
@@ -122,7 +120,7 @@ public class FacturaPdfService {
             codigoQR.setTipoDocRec(registroCae.getTipoDocumento());
             codigoQR.setNroDocRec(registroCae.getNumeroDocumento());
             codigoQR.setTipoCodAut("E");
-            codigoQR.setCodAut(registroCae.getCae());
+            codigoQR.setCodAut(Objects.requireNonNull(registroCae.getCae()));
             ObjectMapper objectMapper = new ObjectMapper();
             String datos = new String(Base64.getEncoder().encode(objectMapper.writeValueAsString(codigoQR).getBytes()));
             imageQr = Image.getInstance(getQRCodeImage(url + datos, 25, 25));
@@ -240,7 +238,7 @@ public class FacturaPdfService {
             paragraph.setAlignment(Element.ALIGN_CENTER);
             cell.addElement(paragraph);
             paragraph = new Paragraph(new Phrase("Cod: ", new Font(Font.HELVETICA, 6, Font.NORMAL)));
-            paragraph.add(new Phrase(comprobante.getComprobanteAfipId().toString(),
+            paragraph.add(new Phrase(Objects.requireNonNull(comprobante.getComprobanteAfipId()).toString(),
                     new Font(Font.HELVETICA, 6, Font.BOLD)));
             paragraph.setAlignment(Element.ALIGN_CENTER);
             cell.addElement(paragraph);
@@ -260,7 +258,7 @@ public class FacturaPdfService {
             paragraph.setIndentationLeft(20);
             cell.addElement(paragraph);
             paragraph = new Paragraph(new Phrase("Fecha de Emisión: ", new Font(Font.HELVETICA, 8, Font.NORMAL)));
-            paragraph.add(new Phrase(ToolService.stringDDMMYYYY2OffsetDateTime(registroCae.getFecha())
+            paragraph.add(new Phrase(ToolService.stringDDMMYYYY2OffsetDateTime(Objects.requireNonNull(registroCae.getFecha()))
                     .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), new Font(Font.HELVETICA, 8, Font.BOLD)));
             paragraph.setAlignment(Element.ALIGN_LEFT);
             paragraph.setIndentationLeft(20);
