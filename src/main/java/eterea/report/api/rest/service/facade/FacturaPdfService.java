@@ -106,6 +106,9 @@ public class FacturaPdfService {
         }
 
         try {
+            assert registroCae.getPuntoVenta() != null;
+            assert registroCae.getComprobanteId() != null;
+            assert registroCae.getNumeroComprobante() != null;
             String url = "https://www.afip.gob.ar/fe/qr/?p=";
             CodigoQR codigoQR = new CodigoQR();
             codigoQR.setVer(1);
@@ -132,7 +135,7 @@ public class FacturaPdfService {
         }
 
         ComprobanteDto comprobante = comprobanteClient.findByComprobanteId(registroCae.getComprobanteId());
-        Boolean discrimina = false;
+        Boolean discrimina = true;
         int copias = 2;
         List<String> discriminados = Arrays.asList("A", "M");
         if (discriminados.contains(comprobante.getLetraComprobante())) {
@@ -187,8 +190,8 @@ public class FacturaPdfService {
                           ComprobanteAfipDto comprobanteAfip, RegistroCaeDto registroCae, ClienteDto cliente,
                           ClienteMovimientoDto clienteMovimiento, MonedaDto moneda, Boolean discriminar, Image imageQr,
                           ClienteMovimientoDto clienteMovimientoAsociado, ComprobanteAfipDto comprobanteAfipAsociado) {
-        PdfPTable table = null;
-        PdfPCell cell = null;
+        PdfPTable table;
+        PdfPCell cell;
 
         Document document = new Document(PageSize.A4);
         try {
@@ -381,7 +384,7 @@ public class FacturaPdfService {
                 table.addCell(cell);
                 cell = new PdfPCell();
                 cell.setBorder(Rectangle.NO_BORDER);
-                paragraph = new Paragraph(new DecimalFormat("#,##0.00").format(Math.abs(articuloMovimiento.getCantidad().doubleValue())),
+                paragraph = new Paragraph(new DecimalFormat("#,##0.00").format(Math.abs(Objects.requireNonNull(articuloMovimiento.getCantidad()).doubleValue())),
                         new Font(Font.HELVETICA, 8, Font.NORMAL));
                 paragraph.setAlignment(Element.ALIGN_RIGHT);
                 cell.addElement(paragraph);
@@ -428,6 +431,7 @@ public class FacturaPdfService {
             if (clienteMovimiento.getObservaciones() != null) {
                 observaciones += clienteMovimiento.getObservaciones();
             }
+            assert clienteMovimiento.getReservaId() != null;
             if (clienteMovimiento.getReservaId() > 0) {
                 observaciones += " Reserva: ";
                 observaciones += clienteMovimiento.getReservaId() + " ";
