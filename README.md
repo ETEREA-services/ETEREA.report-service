@@ -80,8 +80,31 @@ The service can be configured through `application.yml` or environment variables
 
 - Server port
 - Eureka client settings
-- Email configuration
+- Email configuration:
+  - `app.mailcopy.account`: Email address for BCC copies
+  - `app.mail.reply-to`: Reply-to address for sent emails (default: no-reply@eterea.com)
 - Cache settings
+
+## Email Service
+
+The service includes a robust email system with the following features:
+- PDF attachment support
+- Multiple recipient handling
+- BCC (Blind Carbon Copy) support
+- Configurable reply-to address
+- Detailed logging of email operations
+- Input validation and sanitization
+- Error handling with descriptive messages
+
+### Email Configuration Example
+
+```yaml
+app:
+  mailcopy:
+    account: your-bcc-email@example.com
+  mail:
+    reply-to: no-reply@eterea.com
+```
 
 ## API Documentation
 
