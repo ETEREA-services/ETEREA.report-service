@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI/CD pipeline with GitHub Actions
 - Configurable reply-to address for emails
 - Enhanced email validation and error handling
+- Comprehensive email service documentation
+- Detailed logging for email operations
 
 ### Changed
 - Updated to Java 21 for better performance and features
@@ -29,14 +31,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved Maven build configuration with Kotlin support
 - Enhanced email BCC handling with individual address management
 - Improved email address validation and trimming
-- Added detailed logging for email operations
+- Updated email configuration examples
+- Enhanced error messages for email failures
 
 ### Fixed
 - Resolved native access warnings in Docker builds
 - Fixed Kotlin compilation issues with Java 21
 - Fixed BCC visibility issue in email sending
 - Improved null handling in email addresses
-- Enhanced error messages for email sending failures
+- Corrected email recipient handling to prevent duplicate addresses
 
 ### Security
 - Implemented secure configuration management
