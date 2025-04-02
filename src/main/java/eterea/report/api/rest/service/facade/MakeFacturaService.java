@@ -26,6 +26,9 @@ public class MakeFacturaService {
     @Value("${app.mailcopy.account}")
     private String mailCopyAccount;
 
+    @Value("${app.mail.reply-to:no-reply@eterea.com}")
+    private String replyToAddress;
+
     public MakeFacturaService(FacturaPdfService facturaPdfService, ClienteMovimientoClient clienteMovimientoClient, JavaMailSender javaMailSender) {
         this.facturaPdfService = facturaPdfService;
         this.clienteMovimientoClient = clienteMovimientoClient;
@@ -41,42 +44,57 @@ public class MakeFacturaService {
         }
 
         ClienteMovimientoDto clienteMovimiento = clienteMovimientoClient.findByClienteMovimientoId(clienteMovimientoId);
-
         String data = getTextForEmail();
 
         // Envia correo
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         var addresses = new ArrayList<String>();
-        var addresses_bcc = new ArrayList<String>();
 
-        if (!Objects.requireNonNull(clienteMovimiento.getCliente()).getEmail().isEmpty()) {
-            addresses.add(clienteMovimiento.getCliente().getEmail());
-        }
-        if (!email.isEmpty()) {
-            addresses.add(email);
+        // Validar y agregar correo del cliente
+        String clienteEmail = Objects.requireNonNull(clienteMovimiento.getCliente()).getEmail();
+        if (!clienteEmail.trim().isEmpty()) {
+            addresses.add(clienteEmail.trim());
+            log.debug("Agregando correo del cliente: {}", clienteEmail);
         }
 
-        if (!mailCopyAccount.equals("null")) {
-            addresses_bcc.add(mailCopyAccount);
+        // Validar y agregar correo adicional
+        if (email != null && !email.trim().isEmpty()) {
+            addresses.add(email.trim());
+            log.debug("Agregando correo adicional: {}", email);
         }
-        addresses_bcc.add("daniel.quinterospinto@gmail.com");
 
+        if (addresses.isEmpty()) {
+            log.error("No hay direcciones de correo válidas para enviar");
+            return "ERROR: No hay direcciones de correo válidas";
+        }
+
+        // Manejar copias ocultas
         try {
+            if (mailCopyAccount != null && !mailCopyAccount.equals("null") && !mailCopyAccount.trim().isEmpty()) {
+                helper.addBcc(mailCopyAccount.trim());
+                log.debug("Agregando BCC de cuenta configurada: {}", mailCopyAccount);
+            }
+            
+            String bccEmail = "daniel.quinterospinto@gmail.com";
+            helper.addBcc(bccEmail);
+            log.debug("Agregando BCC adicional: {}", bccEmail);
+
             helper.setTo(addresses.toArray(new String[0]));
-            helper.setBcc(addresses_bcc.toArray(new String[0]));
             helper.setText(data);
-            helper.setReplyTo("no-reply@gmail.com");
+            helper.setReplyTo(replyToAddress);
             helper.setSubject("Envío Automático de Comprobante -> " + filenameFactura);
 
             FileSystemResource fileRecibo = new FileSystemResource(filenameFactura);
             helper.addAttachment(filenameFactura, fileRecibo);
 
+            log.info("Enviando correo a: {} con BCC configurado", addresses);
+            javaMailSender.send(message);
+            return "Envío de correo Ok";
         } catch (MessagingException e) {
-            return "Error envío";
+            log.error("Error al enviar correo: {}", e.getMessage(), e);
+            return "Error envío: " + e.getMessage();
         }
-        javaMailSender.send(message);
-        return "Envío de correo Ok";
     }
 
     @NotNull
