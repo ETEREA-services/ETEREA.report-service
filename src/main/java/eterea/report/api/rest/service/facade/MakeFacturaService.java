@@ -76,10 +76,6 @@ public class MakeFacturaService {
                 log.debug("Agregando BCC de cuenta configurada: {}", mailCopyAccount);
             }
             
-            String bccEmail = "daniel.quinterospinto@gmail.com";
-            helper.addBcc(bccEmail);
-            log.debug("Agregando BCC adicional: {}", bccEmail);
-
             helper.setTo(addresses.toArray(new String[0]));
             helper.setText(data);
             helper.setReplyTo(replyToAddress);
