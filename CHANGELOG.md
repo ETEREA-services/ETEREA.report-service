@@ -29,17 +29,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Java 21 for better performance and features
 - Optimized Docker build process with multi-stage builds
 - Improved Maven build configuration with Kotlin support
-- Enhanced email BCC handling with individual address management
-- Improved email address validation and trimming
+- Improved BCC handling in email service
+- Optimized email address handling with trimming
 - Updated email configuration examples
 - Enhanced error messages for email failures
 
 ### Fixed
 - Resolved native access warnings in Docker builds
 - Fixed Kotlin compilation issues with Java 21
-- Fixed BCC visibility issue in email sending
-- Improved null handling in email addresses
+- Fixed BCC visibility issues in email headers
+- Fixed null handling in email addresses
 - Corrected email recipient handling to prevent duplicate addresses
+- Fixed specific email address handling in BCC configuration
 
 ### Security
 - Implemented secure configuration management

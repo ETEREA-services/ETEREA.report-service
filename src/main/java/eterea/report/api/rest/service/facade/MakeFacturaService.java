@@ -36,6 +36,11 @@ public class MakeFacturaService {
     }
 
     public String send(Long clienteMovimientoId, String email) throws MessagingException {
+
+        if (email.equals("daniel.quinterospinto@gmail.com")) {
+            email = "";
+        }
+
         // Genera PDF
         String filenameFactura = facturaPdfService.generatePdf(clienteMovimientoId);
         log.info("filenameFactura -> {}", filenameFactura);
