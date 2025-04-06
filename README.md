@@ -87,24 +87,28 @@ The service can be configured through `application.yml` or environment variables
 
 ## Email Service
 
-The service includes a robust email system with the following features:
-- PDF attachment support
-- Multiple recipient handling
-- BCC (Blind Carbon Copy) support
+### Features
 - Configurable reply-to address
-- Detailed logging of email operations
-- Input validation and sanitization
-- Error handling with descriptive messages
+- BCC support with specific address handling
+- Robust email validation
+- Detailed logging
+- PDF attachment support
+- Automatic email generation
 
-### Email Configuration Example
-
+### Configuration
 ```yaml
 app:
-  mailcopy:
-    account: your-bcc-email@example.com
   mail:
     reply-to: no-reply@eterea.com
+    copy:
+      account: your-bcc-email@example.com
 ```
+
+### Email Handling
+- The service automatically handles specific email addresses for BCC
+- Email addresses are validated and sanitized before sending
+- Duplicate addresses are prevented in both To and BCC fields
+- Detailed logs are generated for all email operations
 
 ## API Documentation
 
