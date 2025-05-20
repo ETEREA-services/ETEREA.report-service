@@ -47,6 +47,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added actuator security endpoints
 - Added email address validation and sanitization
 
+## [1.0.0] - 2024-12-05
+
+### Added
+- Initial release of the Report Service
+- Basic email notification system
+- PDF report generation capabilities
+- Integration with other system services
+- Documentation and configuration guides
+
+### Changed
+- Initial project setup and configuration
+- Basic email service implementation
+- Documentation structure
+
+### Fixed
+- Initial bug fixes and improvements
+- Documentation corrections
+
 ## [0.0.1-SNAPSHOT] - 2024-04-02
 
 ### Added
@@ -68,4 +86,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - None (initial release)
 
 ### Security
-- None (initial release) 
+- None (initial release)
+
+## [1.0.1] - 2024-03-19
+
+### Added
+- GitHub Actions workflow para documentación automática
+- Scripts de generación de documentación y wiki
+- Nueva estructura de documentación con Jekyll
+- Integración con GitHub Pages
+
+### Changed
+- Mejorado el sistema de envío de correos con manejo específico de direcciones
+- Actualizado Spring Boot a versión 3.4.5
+- Actualizado springdoc-openapi a versión 2.8.8
+- Ajustado el formato de las tablas en facturas PDF (ancho de columna)
+
+### Fixed
+- Correcciones en la validación de direcciones de correo
+- Mejoras en la documentación y guías de configuración 

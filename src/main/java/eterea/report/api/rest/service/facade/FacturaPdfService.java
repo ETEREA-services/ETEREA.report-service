@@ -321,7 +321,7 @@ public class FacturaPdfService {
 
             table = new PdfPTable(5);
             table.setWidthPercentage(100);
-            table.setWidths(new int[]{12, 45, 15, 15, 15});
+            table.setWidths(new int[]{20, 45, 15, 15, 15});
             // Títulos
             boolean isMonedaEmpty = clienteMovimiento.getMoneda() == null;
             String monedaSimbolo = isMonedaEmpty ? "" : (char) 10 + clienteMovimiento.getMoneda().getSimbolo();
@@ -360,7 +360,7 @@ public class FacturaPdfService {
                 lineas--;
                 table = new PdfPTable(5);
                 table.setWidthPercentage(100);
-                table.setWidths(new int[]{12, 45, 15, 15, 15});
+                table.setWidths(new int[]{20, 45, 15, 15, 15});
                 cell = new PdfPCell();
                 cell.setBorder(Rectangle.NO_BORDER);
                 paragraph = new Paragraph(articuloMovimiento.getArticuloId(),
