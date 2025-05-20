@@ -1,0 +1,87 @@
+name: "Deploy API Documentation"
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Daily documentation update
+  workflow_dispatch:      # Manual trigger
+  push:
+    branches: [ "main" ]  # Main branch only
+  issues:
+    types: [opened, closed, edited, deleted]  # Issue events
+  milestone:
+    types: [created, closed, edited, deleted]  # Milestone events
+
+# Permissions configuration
+permissions:
+  contents: write    # Repository and documentation access
+  pages: write      # GitHub Pages access
+  id-token: write   # Authentication
+  issues: read      # Issue access
+  pull-requests: write  # PR and merge access
+  repository-projects: write
+  actions: read     # Actions access
+  deployments: write    # Deployment access
+  statuses: write   # Status updates
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyGithub markdown2 jinja2 requests
+
+      - name: Fetch API Documentation data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/fetch_github_data.py
+
+      - name: Generate API Documentation
+        run: |
+          python scripts/generate_docs.py
+
+      - name: Generate Technical Wiki
+        env:
+          GITHUB_TOKEN: ${{ secrets.WIKI_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          python scripts/generate_wiki.py
+      
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Build documentation with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./docs
+          destination: ./_site
+      
+      - name: Upload documentation artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+      
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy documentation to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 

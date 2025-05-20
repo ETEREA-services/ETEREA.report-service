@@ -1,140 +1,129 @@
-# ETEREA Report Service
+# Eterea Report Service
 
 [![ETEREA.report-service CI](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml)
+[![Documentation](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml/badge.svg)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml)
 [![Java](https://img.shields.io/badge/Java-21-red.svg)](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.4-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.5-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.1.20-blue.svg)](https://kotlinlang.org/)
 
-## Overview
-
-ETEREA Report Service is a microservice designed to handle report generation and management within the ETEREA ecosystem. Built with Spring Boot and Kotlin, it provides robust PDF generation capabilities, barcode/QR code support, and seamless integration with other microservices through Spring Cloud.
+A comprehensive reporting service for the Eterea platform that handles report generation, email notifications, and document management.
 
 ## Features
 
-- PDF Generation using LibrePDF/OpenPDF
-- Barcode and QR Code generation using ZXING
-- Email service integration
-- Service discovery with Netflix Eureka
-- OpenAPI documentation
-- Caching support with Caffeine
-- Input validation
-- Actuator endpoints for monitoring
-
-## Prerequisites
-
-- JDK 21
-- Maven 3.6+
-- Docker (optional, for containerized deployment)
-
-## Tech Stack
-
-- **Framework**: Spring Boot 3.4.4
-- **Language**: Java 21, Kotlin 2.1.20
-- **Cloud**: Spring Cloud 2024.0.1
-- **Documentation**: SpringDoc OpenAPI 2.8.6
-- **PDF Generation**: LibrePDF/OpenPDF 2.0.3
-- **Barcode/QR**: ZXING 3.5.3
-- **Caching**: Caffeine
-- **Testing**: JUnit, Kotlin Test
+- **Report Generation**: Generate and distribute various types of reports
+- **Email Notifications**: Configurable email delivery with support for BCC and reply-to addresses
+- **PDF Handling**: Process and manage PDF documents
+- **Integration**: Seamless integration with other Eterea services
+- **Documentation**: Comprehensive API documentation and guides
+- **Automated Documentation**: Daily updates via GitHub Actions
+- **Wiki Integration**: Automated wiki generation and updates
 
 ## Getting Started
 
-### Local Development
+### Prerequisites
+
+- Java 17 or higher
+- Maven 3.8 or higher
+- PostgreSQL 14 or higher
+- SMTP server for email notifications
+
+### Installation
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/ETEREA-services/ETEREA.report-service.git
-   cd ETEREA.report-service
-   ```
+```bash
+git clone https://github.com/eterea/report-service.git
+cd report-service
+```
 
 2. Build the project:
-   ```bash
-   ./mvnw clean install
-   ```
-
-3. Run the application:
-   ```bash
-   ./mvnw spring-boot:run
-   ```
-
-### Docker Deployment
-
-1. Build the Docker image:
-   ```bash
-   docker build -t eterea-report-service .
-   ```
-
-2. Run the container:
-   ```bash
-   docker run -p 8080:8080 eterea-report-service
-   ```
-
-For local development with Docker:
 ```bash
-docker build -f Dockerfile.local -t eterea-report-service-local .
+mvn clean install
+```
+
+3. Configure the application:
+```bash
+cp src/main/resources/application.example.yml src/main/resources/application.yml
+```
+
+4. Update the configuration with your settings:
+```yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/eterea
+    username: your_username
+    password: your_password
+  mail:
+    host: smtp.example.com
+    port: 587
+    username: your_email@example.com
+    password: your_password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+```
+
+5. Run the application:
+```bash
+mvn spring-boot:run
 ```
 
 ## Configuration
 
-The service can be configured through `application.yml` or environment variables. Key configuration properties include:
+### Email Service
 
-- Server port
-- Eureka client settings
-- Email configuration:
-  - `app.mailcopy.account`: Email address for BCC copies
-  - `app.mail.reply-to`: Reply-to address for sent emails (default: no-reply@eterea.com)
-- Cache settings
+The email service can be configured through the following properties:
 
-## Email Service
-
-### Features
-- Configurable reply-to address
-- BCC support with specific address handling
-- Robust email validation
-- Detailed logging
-- PDF attachment support
-- Automatic email generation
-
-### Configuration
 ```yaml
-app:
-  mail:
-    reply-to: no-reply@eterea.com
-    copy:
-      account: your-bcc-email@example.com
+eterea:
+  report:
+    email:
+      from: noreply@eterea.com
+      reply-to: support@eterea.com
+      bcc: monitoring@eterea.com
+      validation:
+        enabled: true
+        pattern: ^[A-Za-z0-9+_.-]+@(.+)$
 ```
 
-### Email Handling
-- The service automatically handles specific email addresses for BCC
-- Email addresses are validated and sanitized before sending
-- Duplicate addresses are prevented in both To and BCC fields
-- Detailed logs are generated for all email operations
+### Security
 
-## API Documentation
+Security can be configured through the following properties:
 
-Once the service is running, you can access the OpenAPI documentation at:
-- Swagger UI: `http://localhost:8080/swagger-ui.html`
-- OpenAPI JSON: `http://localhost:8080/v3/api-docs`
+```yaml
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://auth.eterea.com
+```
 
-## Monitoring
+## Documentation
 
-The service exposes actuator endpoints for monitoring:
-- Health: `/actuator/health`
-- Metrics: `/actuator/metrics`
-- Info: `/actuator/info`
+The service documentation is available in multiple formats:
+
+- **API Documentation**: Available at `/swagger-ui.html` when running locally
+- **Technical Documentation**: Hosted on [GitHub Pages](https://eterea-services.github.io/ETEREA.report-service/)
+- **Project Wiki**: Available in the [GitHub Wiki](https://github.com/ETEREA-services/ETEREA.report-service/wiki)
+- **Development Guide**: See the [docs](docs/) directory for detailed guides
+
+The documentation is automatically updated daily and on significant changes through our GitHub Actions workflow.
 
 ## Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
 ## License
 
-This project is licensed under the terms specified in the LICENSE file.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Support
 
-For support, please contact the ETEREA development team or create an issue in the repository.
+For support, please contact:
+- Email: support@eterea.com
+- Documentation: [Eterea Documentation](https://docs.eterea.com)
+- Issue Tracker: [GitHub Issues](https://github.com/ETEREA-services/ETEREA.report-service/issues)
+- Wiki: [Project Wiki](https://github.com/ETEREA-services/ETEREA.report-service/wiki)
