@@ -26,6 +26,9 @@ public class MakeFacturaService {
     @Value("${app.mailcopy.account}")
     private String mailCopyAccount;
 
+    @Value("${app.testing}")
+    private Boolean testing;
+
     @Value("${app.mail.reply-to:no-reply@eterea.com}")
     private String replyToAddress;
 
@@ -56,29 +59,38 @@ public class MakeFacturaService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         var addresses = new ArrayList<String>();
 
-        // Validar y agregar correo del cliente
-        String clienteEmail = Objects.requireNonNull(clienteMovimiento.getCliente()).getEmail();
-        if (!clienteEmail.trim().isEmpty()) {
-            addresses.add(clienteEmail.trim());
-            log.debug("Agregando correo del cliente: {}", clienteEmail);
+        if (!testing) {
+            // Validar y agregar correo del cliente
+            String clienteEmail = Objects.requireNonNull(clienteMovimiento.getCliente()).getEmail();
+            if (!clienteEmail.trim().isEmpty()) {
+                addresses.add(clienteEmail.trim());
+                log.debug("Agregando correo del cliente: {}", clienteEmail);
+            }
+
+            // Validar y agregar correo adicional
+            if (!email.trim().isEmpty()) {
+                addresses.add(email.trim());
+                log.debug("Agregando correo adicional: {}", email);
+            }
+
+            if (addresses.isEmpty()) {
+                log.error("No hay direcciones de correo válidas para enviar");
+                return "ERROR: No hay direcciones de correo válidas";
+            }
         }
 
-        // Validar y agregar correo adicional
-        if (email != null && !email.trim().isEmpty()) {
-            addresses.add(email.trim());
-            log.debug("Agregando correo adicional: {}", email);
-        }
-
-        if (addresses.isEmpty()) {
-            log.error("No hay direcciones de correo válidas para enviar");
-            return "ERROR: No hay direcciones de correo válidas";
+        if (testing) {
+            addresses.add("daniel.quinterospinto@gmail.com");
+            log.debug("Agregando correo de prueba: {}", "daniel.quinterospinto@gmail.com");
         }
 
         // Manejar copias ocultas
         try {
-            if (mailCopyAccount != null && !mailCopyAccount.equals("null") && !mailCopyAccount.trim().isEmpty()) {
-                helper.addBcc(mailCopyAccount.trim());
-                log.debug("Agregando BCC de cuenta configurada: {}", mailCopyAccount);
+            if (!testing) {
+                if (mailCopyAccount != null && !mailCopyAccount.equals("null") && !mailCopyAccount.trim().isEmpty()) {
+                    helper.addBcc(mailCopyAccount.trim());
+                    log.debug("Agregando BCC de cuenta configurada: {}", mailCopyAccount);
+                }
             }
             
             helper.setTo(addresses.toArray(new String[0]));
