@@ -319,17 +319,12 @@ public class FacturaPdfService {
             table.addCell(cell);
             document.add(table);
 
-            table = new PdfPTable(5);
+            table = new PdfPTable(4);
             table.setWidthPercentage(100);
-            table.setWidths(new int[]{20, 45, 15, 15, 15});
+            table.setWidths(new int[]{45, 15, 15, 15});
             // Títulos
             boolean isMonedaEmpty = clienteMovimiento.getMoneda() == null;
             String monedaSimbolo = isMonedaEmpty ? "" : (char) 10 + clienteMovimiento.getMoneda().getSimbolo();
-            cell = new PdfPCell();
-            paragraph = new Paragraph("Código", new Font(Font.HELVETICA, 8, Font.BOLD));
-            paragraph.setAlignment(Element.ALIGN_CENTER);
-            cell.addElement(paragraph);
-            table.addCell(cell);
             cell = new PdfPCell();
             paragraph = new Paragraph("Artículo", new Font(Font.HELVETICA, 8, Font.BOLD));
             paragraph.setAlignment(Element.ALIGN_LEFT);
@@ -358,16 +353,9 @@ public class FacturaPdfService {
             for (ArticuloMovimientoDto articuloMovimiento : articuloMovimientoClient
                     .findAllByClienteMovimientoId(clienteMovimiento.getClienteMovimientoId())) {
                 lineas--;
-                table = new PdfPTable(5);
+                table = new PdfPTable(4);
                 table.setWidthPercentage(100);
-                table.setWidths(new int[]{20, 45, 15, 15, 15});
-                cell = new PdfPCell();
-                cell.setBorder(Rectangle.NO_BORDER);
-                paragraph = new Paragraph(articuloMovimiento.getArticuloId(),
-                        new Font(Font.HELVETICA, 8, Font.NORMAL));
-                paragraph.setAlignment(Element.ALIGN_CENTER);
-                cell.addElement(paragraph);
-                table.addCell(cell);
+                table.setWidths(new int[]{45, 15, 15, 15});
                 cell = new PdfPCell();
                 cell.setBorder(Rectangle.NO_BORDER);
                 ArticuloDto articulo = articuloClient.findByArticuloId(articuloMovimiento.getArticuloId());
