@@ -1,6 +1,0 @@
-fix(ci): revert to client-side mermaid rendering
-
-Reverts the documentation pipeline to use client-side rendering for Mermaid diagrams. This change is necessary to avoid sandbox errors in the GitHub Actions environment that prevent `mermaid-cli` from running.
-
-- Removes the `npm install` and `mmdc` steps from `generate-docs.yml`.
-- Updates the `index.html` to include `mermaid.js` and render diagrams dynamically.
