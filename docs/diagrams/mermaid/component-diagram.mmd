@@ -1,0 +1,10 @@
+graph TD
+    subgraph "eterea.report-service"
+        A[report-service]
+    end
+
+    subgraph "eterea.core-service"
+        B[core-service]
+    end
+
+    A -- Feign Client --> B

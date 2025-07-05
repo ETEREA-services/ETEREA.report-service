@@ -5,7 +5,7 @@
 [![Java](https://img.shields.io/badge/Java-21-red.svg)](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.1.20-blue.svg)](https://kotlinlang.org/)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
+[![Version](https://img.shields.io/badge/Version-1.2.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
 
 A comprehensive reporting service for the Eterea platform that handles report generation, email notifications, and document management.
 
