@@ -1,0 +1,55 @@
+classDiagram
+    class MakeFacturaController {
+        -MakeFacturaService service
+        -FacturaPdfService facturaPdfService
+        +makePdf(Long clienteMovimientoId) ResponseEntity~Resource~
+        +send(Long clienteMovimientoId, String email) ResponseEntity~String~
+    }
+
+    class MakeFacturaService {
+        -FacturaPdfService facturaPdfService
+        -ClienteMovimientoClient clienteMovimientoClient
+        -JavaMailSender javaMailSender
+        +send(Long clienteMovimientoId, String email) String
+    }
+
+    class FacturaPdfService {
+        -Environment environment
+        -EmpresaClient empresaClient
+        -ClienteMovimientoClient clienteMovimientoClient
+        -ClienteClient clienteClient
+        -RegistroCaeClient registroCaeClient
+        -MonedaClient monedaClient
+        -ComprobanteClient comprobanteClient
+        -ComprobanteAfipClient comprobanteAfipClient
+        -ArticuloMovimientoClient articuloMovimientoClient
+        -ArticuloClient articuloClient
+        -ConceptoFacturadoClient conceptoFacturadoClient
+        +generatePdf(Long clienteMovimientoId) String
+    }
+
+    MakeFacturaController --> MakeFacturaService
+    MakeFacturaController --> FacturaPdfService
+    MakeFacturaService --> FacturaPdfService
+    MakeFacturaService --> ClienteMovimientoClient
+    FacturaPdfService --> EmpresaClient
+    FacturaPdfService --> ClienteMovimientoClient
+    FacturaPdfService --> ClienteClient
+    FacturaPdfService --> RegistroCaeClient
+    FacturaPdfService --> MonedaClient
+    FacturaPdfService --> ComprobanteClient
+    FacturaPdfService --> ComprobanteAfipClient
+    FacturaPdfService --> ArticuloMovimientoClient
+    FacturaPdfService --> ArticuloClient
+    FacturaPdfService --> ConceptoFacturadoClient
+
+    interface ClienteMovimientoClient
+    interface EmpresaClient
+    interface ClienteClient
+    interface RegistroCaeClient
+    interface MonedaClient
+    interface ComprobanteClient
+    interface ComprobanteAfipClient
+    interface ArticuloMovimientoClient
+    interface ArticuloClient
+    interface ConceptoFacturadoClient
