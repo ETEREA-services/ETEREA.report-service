@@ -11,7 +11,7 @@
 	<groupId>com.termascacheuta.eterea</groupId>
 	<artifactId>report-service</artifactId>
 	<version>1.2.0</version>
-	<name>eterea.report-service</name>
+	<name>ETEREA.report-service</name>
 	<description>eterea.report-service</description>
 	<url/>
 	<licenses>
@@ -30,6 +30,10 @@
 		<java.version>24</java.version>
 		<kotlin.version>2.2.0</kotlin.version>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
+		<sonar.organization>eterea-services</sonar.organization>
+		<sonar.projectKey>ETEREA-services_ETEREA.report-service</sonar.projectKey>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -42,7 +46,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<artifactId>spring-cloud-starter-consul-discovery</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -120,8 +124,14 @@
 			<artifactId>caffeine</artifactId>
 		</dependency>
 	</dependencies>
+
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.18.0</version>
+			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
@@ -133,6 +143,7 @@
 	</dependencyManagement>
 
 	<build>
+		<finalName>eterea.report-service</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -226,6 +237,25 @@
 						<phase>test-compile</phase>
 						<goals>
 							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.13</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
 						</goals>
 					</execution>
 				</executions>

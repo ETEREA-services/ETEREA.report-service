@@ -1,64 +1,45 @@
 # Eterea Report Service
 
-[![ETEREA.report-service CI](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml)
+[![ETEREA.report-service Build JVM Image](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml)
 [![Documentation](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml/badge.svg)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml)
-[![Java](https://img.shields.io/badge/Java-21-red.svg)](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
+[![Java](https://img.shields.io/badge/Java-24-red.svg)](https://www.oracle.com/java/technologies/javase/jdk24-archive-downloads.html)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.1.20-blue.svg)](https://kotlinlang.org/)
-[![Version](https://img.shields.io/badge/Version-1.2.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.2.0-blue.svg)](https://kotlinlang.org/)
+[![Version](https://img.shields.io/badge/Version-1.3.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
 
-A comprehensive reporting service for the Eterea platform that handles report generation, email notifications, and document management.
+Servicio de reportes para la plataforma Eterea: generación de reportes, notificaciones por email y gestión de documentos.
 
-## Features
+## Cambios recientes destacados
 
-- **Report Generation**: Generate and distribute various types of reports
-- **Email Notifications**: Configurable email delivery with support for BCC and reply-to addresses
-- **PDF Handling**: Process and manage PDF documents
-- **Integration**: Seamless integration with other Eterea services
-- **Documentation**: Comprehensive API documentation and guides
-- **Automated Documentation**: Daily updates via GitHub Actions
-- **Wiki Integration**: Automated wiki generation and updates
+- **Migración a Consul:** Ahora el descubrimiento de servicios utiliza Consul en vez de Eureka.
+- **Pipeline CI/CD mejorado:** Integración con SonarCloud, cobertura Jacoco y build multi-stage en Docker.
+- **Nuevos servicios:** Lógica avanzada para generación y envío de facturas.
+- **Dependencias actualizadas:** Java 24, Spring Boot 3.5.3, Spring Cloud 2025.0.0, Kotlin 2.2.0.
 
-## Getting Started
+## Requisitos
 
-### Prerequisites
+- Java 24 o superior
+- Maven 3.8 o superior
+- PostgreSQL 14+
+- Servidor SMTP
 
-- Java 17 or higher
-- Maven 3.8 or higher
-- PostgreSQL 14 or higher
-- SMTP server for email notifications
+## Instalación y configuración
 
-### Installation
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/ETEREA-services/ETEREA.report-service.git
+   cd ETEREA.report-service
+   ```
+2. Compila el proyecto:
+   ```bash
+   mvn clean install
+   ```
+3. Configura la aplicación editando `src/main/resources/bootstrap.yml` y `config/eterea.properties`.
 
-1. Clone the repository:
-```bash
-git clone https://github.com/eterea/report-service.git
-cd report-service
-```
+## Documentación y diagramas
 
-2. Build the project:
-```bash
-mvn clean install
-```
-
-3. Configure the application:
-```bash
-cp src/main/resources/application.example.yml src/main/resources/application.yml
-```
-
-4. Update the configuration with your settings:
-```yaml
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/eterea
-    username: your_username
-    password: your_password
-  mail:
-    host: smtp.example.com
-    port: 587
-    username: your_email@example.com
-    password: your_password
-    properties:
+- Diagramas actualizados en `docs/diagrams/mermaid/`.
+- Documentación automática publicada vía GitHub Pages.
       mail:
         smtp:
           auth: true
