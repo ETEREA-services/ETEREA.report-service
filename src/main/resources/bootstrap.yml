@@ -46,3 +46,8 @@ logging:
     web: ${app.logging}
     org:
       springframework.cloud.config: ${app.logging}
+
+management:
+  health:
+    mail:
+      enabled: false
