@@ -14,7 +14,11 @@ Servicio de reportes para la plataforma Eterea: generación de reportes, notific
 - **Migración a Consul:** Ahora el descubrimiento de servicios utiliza Consul en vez de Eureka.
 - **Pipeline CI/CD mejorado:** Integración con SonarCloud, cobertura Jacoco y build multi-stage en Docker.
 - **Nuevos servicios:** Lógica avanzada para generación y envío de facturas.
-- **Dependencias actualizadas:** Java 24, Spring Boot 3.5.3, Spring Cloud 2025.0.0, Kotlin 2.2.0.
+- **Actualización de dependencias:** Spring Boot 3.5.4, openpdf 2.2.4.
+- **Nuevo servicio MakeFacturaService:** Generación y envío de facturas por email.
+- **ToolService:** Utilidades para fechas y conversión de números a texto.
+- **Pipeline CI/CD mejorado:** Integración con SonarCloud, cobertura Jacoco y build multi-stage en Docker.
+- **Diagramas actualizados:** Mermaid para arquitectura, clases y secuencias.
 
 ## Requisitos
 
