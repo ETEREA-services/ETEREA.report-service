@@ -1,5 +1,5 @@
-## [1.3.0] - 2025-08-05
-- feat: Actualización de dependencias principales (Spring Boot 3.5.4, openpdf 2.2.4)
+## [1.3.0] - 2025-09-21
+- feat: Actualización de dependencias principales (Spring Boot 3.5.6, openpdf 3.0.0, Kotlin 2.2.20, springdoc-openapi 2.8.10)
 - feat: Nuevo servicio MakeFacturaService para generación y envío de facturas por email
 - feat: Nuevo ToolService con utilidades para fechas y conversión de números a texto
 - feat: Mejoras en la generación de PDFs y lógica de copias/triplicados

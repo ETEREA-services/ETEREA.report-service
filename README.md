@@ -3,8 +3,8 @@
 [![ETEREA.report-service Build JVM Image](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml)
 [![Documentation](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml/badge.svg)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml)
 [![Java](https://img.shields.io/badge/Java-24-red.svg)](https://www.oracle.com/java/technologies/javase/jdk24-archive-downloads.html)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.2.0-blue.svg)](https://kotlinlang.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.6-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.2.20-blue.svg)](https://kotlinlang.org/)
 [![Version](https://img.shields.io/badge/Version-1.3.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
 
 Servicio de reportes para la plataforma Eterea: generación de reportes, notificaciones por email y gestión de documentos.
@@ -14,7 +14,7 @@ Servicio de reportes para la plataforma Eterea: generación de reportes, notific
 - **Migración a Consul:** Ahora el descubrimiento de servicios utiliza Consul en vez de Eureka.
 - **Pipeline CI/CD mejorado:** Integración con SonarCloud, cobertura Jacoco y build multi-stage en Docker.
 - **Nuevos servicios:** Lógica avanzada para generación y envío de facturas.
-- **Actualización de dependencias:** Spring Boot 3.5.4, openpdf 2.2.4.
+- **Actualización de dependencias:** Spring Boot 3.5.6, openpdf 3.0.0, Kotlin 2.2.20.
 - **Nuevo servicio MakeFacturaService:** Generación y envío de facturas por email.
 - **ToolService:** Utilidades para fechas y conversión de números a texto.
 - **Pipeline CI/CD mejorado:** Integración con SonarCloud, cobertura Jacoco y build multi-stage en Docker.
