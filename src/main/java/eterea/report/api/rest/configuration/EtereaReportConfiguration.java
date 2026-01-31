@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@EnableFeignClients(basePackages = "eterea.report.api.rest.client")
+@EnableFeignClients(basePackages = "eterea.report.api.rest")
 @PropertySource("classpath:config/eterea.properties")
 public class EtereaReportConfiguration {
 }
