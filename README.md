@@ -2,27 +2,25 @@
 
 [![ETEREA.report-service Build JVM Image](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml)
 [![Documentation](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml/badge.svg)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml)
-[![Java](https://img.shields.io/badge/Java-24-red.svg)](https://www.oracle.com/java/technologies/javase/jdk24-archive-downloads.html)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.6-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.2.20-blue.svg)](https://kotlinlang.org/)
-[![Version](https://img.shields.io/badge/Version-1.3.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
+[![Java](https://img.shields.io/badge/Java-25-red.svg)](https://www.oracle.com/java/technologies/javase/jdk25-archive-downloads.html)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.2-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Version](https://img.shields.io/badge/Version-2.0.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
 
 Servicio de reportes para la plataforma Eterea: generación de reportes, notificaciones por email y gestión de documentos.
 
 ## Cambios recientes destacados
 
-- **Migración a Consul:** Ahora el descubrimiento de servicios utiliza Consul en vez de Eureka.
-- **Pipeline CI/CD mejorado:** Integración con SonarCloud, cobertura Jacoco y build multi-stage en Docker.
-- **Nuevos servicios:** Lógica avanzada para generación y envío de facturas.
-- **Actualización de dependencias:** Spring Boot 3.5.6, openpdf 3.0.0, Kotlin 2.2.20.
-- **Nuevo servicio MakeFacturaService:** Generación y envío de facturas por email.
-- **ToolService:** Utilidades para fechas y conversión de números a texto.
-- **Pipeline CI/CD mejorado:** Integración con SonarCloud, cobertura Jacoco y build multi-stage en Docker.
-- **Diagramas actualizados:** Mermaid para arquitectura, clases y secuencias.
+- **Refactor arquitectural completo:** Migración a arquitectura hexagonal (DDD) con separación clara de capas (dominio, aplicación, infraestructura)
+- **Simplificación de API:** Reemplazo de múltiples clientes Feign por un solo InvoiceDataClient que agrega todos los datos de factura
+- **Eliminación de Kotlin:** Conversión de todos los DTOs y modelos de Kotlin a Java
+- **Mejora de FacturaPdfService:** Acepta directamente InvoiceData para mejor testabilidad
+- **Actualización de dependencias:** Spring Boot 4.0.2, Java 25, Spring Cloud 2025.1.0, SpringDoc OpenAPI 3.0.1
+- **Pipeline CI/CD actualizado:** Soporte para Java 25 y Eclipse Temurin 25 en Docker
+- **Diagramas Mermaid actualizados:** Reflejan la nueva arquitectura hexagonal
 
 ## Requisitos
 
-- Java 24 o superior
+- Java 25 o superior
 - Maven 3.8 o superior
 - PostgreSQL 14+
 - Servidor SMTP

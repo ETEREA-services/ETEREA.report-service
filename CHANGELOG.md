@@ -1,12 +1,13 @@
-## [1.3.0] - 2025-09-21
-- feat: Actualización de dependencias principales (Spring Boot 3.5.6, openpdf 3.0.0, Kotlin 2.2.20, springdoc-openapi 2.8.10)
-- feat: Nuevo servicio MakeFacturaService para generación y envío de facturas por email
-- feat: Nuevo ToolService con utilidades para fechas y conversión de números a texto
-- feat: Mejoras en la generación de PDFs y lógica de copias/triplicados
-- docs: Actualización de diagramas Mermaid y documentación automática
-- chore: Nuevos archivos de configuración (`banner.txt`, `bootstrap.yml`, `eterea.properties`)
-
-- feat(ci): update documentation pipeline to generate and publish mermaid diagrams
+## [2.0.0] - 2026-01-31
+- feat: Refactor arquitectural completo a hexagonal (domain-driven design)
+- feat: Simplificación de API con InvoiceDataClient agregando datos de factura
+- feat: Eliminación de dependencias Kotlin y conversión de DTOs a Java
+- feat: Mejora de FacturaPdfService con soporte directo para InvoiceData
+- feat: Actualización de dependencias principales (Spring Boot 4.0.2, Java 25, Spring Cloud 2025.1.0)
+- feat: Actualización de SpringDoc OpenAPI a 3.0.1 y Google ZXing a 3.5.4
+- docs: Actualización de diagramas Mermaid (clases y secuencia)
+- chore: Modificación de pipeline CI/CD para Java 25
+- chore: Actualización de Dockerfile a Eclipse Temurin 25
 
 ## [1.1.0] - 2025-07-01
 - feat(release): implementar version 1.0.0

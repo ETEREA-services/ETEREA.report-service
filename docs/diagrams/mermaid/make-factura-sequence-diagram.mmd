@@ -2,18 +2,14 @@ sequenceDiagram
     participant C as MakeFacturaController
     participant S as MakeFacturaService
     participant P as FacturaPdfService
-    participant Feign as FeignClients
+    participant I as InvoiceDataService
+    participant F as InvoiceDataClient
 
     C->>P: makePdf(clienteMovimientoId)
-    P->>Feign: findTop()
-    P->>Feign: findByClienteMovimientoId(clienteMovimientoId)
-    P->>Feign: findByClienteId(clienteId)
-    P->>Feign: findByUnique(...)
-    P->>Feign: findByMonedaId(monedaId)
-    P->>Feign: findByClienteMovimientoId(clienteMovimientoIdAsociado)
-    P->>Feign: findByComprobanteId(comprobanteId)
-    P->>Feign: findByComprobanteAfipId(comprobanteAfipId)
-    P->>Feign: findAllByClienteMovimientoId(clienteMovimientoId)
-    P->>Feign: findByArticuloId(articuloId)
-    P->>Feign: findByArticuloMovimientoId(articuloMovimientoId)
+    P->>I: getInvoiceDataByClienteMovimientoId(clienteMovimientoId)
+    I->>F: getInvoiceDataByClienteMovimientoId(clienteMovimientoId)
+    F-->>I: InvoiceData
+    I-->>P: InvoiceData
     P-->>C: filename
+
+    Note over C,S,P,I,F: Generación de PDF con datos agregados
