@@ -1,20 +1,20 @@
 sequenceDiagram
-    participant Client as Cliente HTTP
+    participant HttpCliente as Cliente HTTP
     participant Controller as MakeFacturaController
     participant UseCase as GenerateInvoicePdfUseCase
     participant Repository as InvoiceDataRepository
-    participant Client as InvoiceDataClient
+    participant DataClient as InvoiceDataClient
     participant Service as FacturaPdfService
     participant CoreService as Core Service
 
-    Client->>Controller: POST /make-pdf/{id}
+    HttpCliente->>Controller: POST /make-pdf/{id}
     Controller->>UseCase: generatePdf(clienteMovimientoId)
     
     UseCase->>Repository: findByClienteMovimientoId(clienteMovimientoId)
-    Repository->>Client: getInvoiceDataByClienteMovimientoId(clienteMovimientoId)
-    Client->>CoreService: HTTP GET /invoice-data/{id}
-    CoreService-->>Client: InvoiceData
-    Client-->>Repository: InvoiceData
+    Repository->>DataClient: getInvoiceDataByClienteMovimientoId(clienteMovimientoId)
+    DataClient->>CoreService: HTTP GET /invoice-data/{id}
+    CoreService-->>DataClient: InvoiceData
+    DataClient-->>Repository: InvoiceData
     Repository-->>UseCase: InvoiceData
     
     UseCase->>Service: generatePdf(clienteMovimientoId, invoiceData)
@@ -22,6 +22,6 @@ sequenceDiagram
     Service-->>UseCase: filename.pdf
     
     UseCase-->>Controller: Resource (PDF)
-    Controller-->>Client: ResponseEntity<Resource>
+    Controller-->>HttpCliente: ResponseEntity<Resource>
 
-    Note over Client,Service: Flujo completo de generación de facturas PDF<br/>usando arquitectura hexagonal
+    Note over HttpCliente,Service: Flujo completo de generación de facturas PDF usando arquitectura hexagonal
