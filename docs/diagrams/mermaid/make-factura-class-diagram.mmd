@@ -1,16 +1,42 @@
 classDiagram
     class MakeFacturaController {
-        -MakeFacturaService service
-        -FacturaPdfService facturaPdfService
+        -SendInvoiceUseCase sendInvoiceUseCase
+        -GenerateInvoicePdfUseCase generateInvoicePdfUseCase
         +makePdf(Long clienteMovimientoId) ResponseEntity~Resource~
         +send(Long clienteMovimientoId, String email) ResponseEntity~String~
     }
 
-    class MakeFacturaService {
-        -FacturaPdfService facturaPdfService
-        -InvoiceDataClient invoiceDataClient
+    class SendInvoiceUseCase {
+        <<interface>>
+        +sendInvoice(Long clienteMovimientoId, String email) String
+    }
+
+    class GenerateInvoicePdfUseCase {
+        <<interface>>
+        +generatePdf(Long clienteMovimientoId) Resource
+    }
+
+    class SendInvoiceUseCaseImpl {
+        -InvoiceDataRepository invoiceDataRepository
+        -GenerateInvoicePdfUseCase generateInvoicePdfUseCase
         -JavaMailSender javaMailSender
-        +send(Long clienteMovimientoId, String email) String
+        +sendInvoice(Long clienteMovimientoId, String email) String
+    }
+
+    class GenerateInvoicePdfUseCaseImpl {
+        -InvoiceDataRepository invoiceDataRepository
+        -FacturaPdfService facturaPdfService
+        +generatePdf(Long clienteMovimientoId) Resource
+    }
+
+    class InvoiceDataRepository {
+        <<interface>>
+        +findByClienteMovimientoId(Long clienteMovimientoId) InvoiceData
+    }
+
+    class InvoiceDataRepositoryImpl {
+        -InvoiceDataClient invoiceDataClient
+        +findByClienteMovimientoId(Long clienteMovimientoId) InvoiceData
     }
 
     class FacturaPdfService {
@@ -24,10 +50,15 @@ classDiagram
         +getInvoiceDataByClienteMovimientoId(Long clienteMovimientoId) InvoiceData
     }
 
-    MakeFacturaController --> MakeFacturaService
-    MakeFacturaController --> FacturaPdfService
-    MakeFacturaService --> FacturaPdfService
-    MakeFacturaService --> InvoiceDataClient
+    MakeFacturaController --> SendInvoiceUseCase
+    MakeFacturaController --> GenerateInvoicePdfUseCase
+    SendInvoiceUseCase <|.. SendInvoiceUseCaseImpl
+    GenerateInvoicePdfUseCase <|.. GenerateInvoicePdfUseCaseImpl
+    SendInvoiceUseCaseImpl --> InvoiceDataRepository
+    GenerateInvoicePdfUseCaseImpl --> InvoiceDataRepository
+    GenerateInvoicePdfUseCaseImpl --> FacturaPdfService
+    InvoiceDataRepository <|.. InvoiceDataRepositoryImpl
+    InvoiceDataRepositoryImpl --> InvoiceDataClient
     FacturaPdfService --> InvoiceDataService
     InvoiceDataService --> InvoiceDataClient
 
@@ -39,4 +70,22 @@ classDiagram
         -ClienteMovimiento clienteMovimiento
         -RegistroCae registroCae
         -ClienteMovimiento clienteMovimientoAsociado
+    }
+
+    class Comprobante {
+        <<record>>
+        +String letraComprobante
+        +Byte contado
+        +ComprobanteAfip comprobanteAfip
+    }
+
+    class ComprobanteAfip {
+        <<record>>
+        +Integer comprobanteAfipId
+        +String label
+    }
+
+    class Moneda {
+        <<record>>
+        +String simbolo
     }

@@ -1,0 +1,58 @@
+classDiagram
+    class PdfReportBuilder {
+        -Rectangle pageSize
+        -float marginLeft
+        -float marginRight
+        -float marginTop
+        -float marginBottom
+        -PageSection header
+        -PageSection footer
+        -ReportSection body
+        +setPageSize(Rectangle pageSize) PdfReportBuilder
+        +setOrientation(boolean landscape) PdfReportBuilder
+        +setMargins(float, float, float, float) PdfReportBuilder
+        +setHeader(PageSection header) PdfReportBuilder
+        +setFooter(PageSection footer) PdfReportBuilder
+        +setBody(ReportSection body) PdfReportBuilder
+        +build(OutputStream outputStream) void
+    }
+
+    class HeaderFooterPageEvent {
+        -PageSection header
+        -PageSection footer
+        +onEndPage(PdfWriter writer, Document document) void
+    }
+
+    interface PageSection {
+        <<interface>>
+        +render(Document document, PdfWriter writer) void
+    }
+
+    interface ReportSection {
+        <<interface>>
+        +render(Document document, PdfWriter writer) void
+    }
+
+    class SampleReportService {
+        +generateSampleReport(OutputStream outputStream) void
+        -createHeader() PageSection
+        -createFooter() PageSection
+        -createBody() ReportSection
+    }
+
+    class SampleReportController {
+        -SampleReportService sampleReportService
+        +getSampleReport() ResponseEntity~Resource~
+    }
+
+    PdfReportBuilder --> PageSection
+    PdfReportBuilder --> ReportSection
+    HeaderFooterPageEvent --> PageSection
+    SampleReportService --> PageSection
+    SampleReportService --> ReportSection
+    SampleReportController --> SampleReportService
+
+    note for PdfReportBuilder "Builder pattern para\nconstrucción de PDFs"
+    note for PageSection "Functional interface\npara header/footer"
+    note for ReportSection "Functional interface\npara contenido del reporte"
+    note for HeaderFooterPageEvent "Event handler de iText\npara headers/footers"

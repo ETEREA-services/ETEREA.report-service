@@ -266,7 +266,10 @@ jobs:
       - name: Prepare artifact for deployment
         run: |
           mkdir -p _site
-          mv docs/* _site/
+          cp -r docs/* _site/
+          # Ensure diagrams directory is included
+          mkdir -p _site/diagrams/mermaid
+          cp -r docs/diagrams/mermaid/*.mmd _site/diagrams/mermaid/ 2>/dev/null || true
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v3
         with:
