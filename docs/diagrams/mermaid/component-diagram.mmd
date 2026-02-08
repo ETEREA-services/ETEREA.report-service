@@ -1,10 +1,12 @@
-graph TD
-    subgraph "eterea.report-service"
-        A[report-service]
-    end
+flowchart TD
+    subgraph "Eterea Platform"
+        subgraph "eterea.report-service"
+            A[Report Service<br/>PDF Generation<br/>Email Notifications]
+        end
 
-    subgraph "eterea.core-service"
-        B[core-service]
-    end
+        subgraph "eterea.core-service"
+            B[Core Service<br/>Business Logic<br/>Data Management]
+        end
 
-    A -- Feign Client --> B
+        A -- Feign Client<br/>HTTP/REST --> B
+    end

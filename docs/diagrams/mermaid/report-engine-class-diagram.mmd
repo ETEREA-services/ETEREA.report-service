@@ -1,5 +1,6 @@
 classDiagram
     class PdfReportBuilder {
+        <<Builder Pattern>>
         -Rectangle pageSize
         -float marginLeft
         -float marginRight
@@ -8,6 +9,7 @@ classDiagram
         -PageSection header
         -PageSection footer
         -ReportSection body
+        -boolean landscape
         +setPageSize(Rectangle pageSize) PdfReportBuilder
         +setOrientation(boolean landscape) PdfReportBuilder
         +setMargins(float, float, float, float) PdfReportBuilder
@@ -15,44 +17,75 @@ classDiagram
         +setFooter(PageSection footer) PdfReportBuilder
         +setBody(ReportSection body) PdfReportBuilder
         +build(OutputStream outputStream) void
+        -configureDocument() Document
+        -createPdfWriter(Document document, OutputStream output) PdfWriter
+        -attachPageEvents(PdfWriter writer) void
     }
 
     class HeaderFooterPageEvent {
+        <<iText Page Event>>
         -PageSection header
         -PageSection footer
+        -boolean showHeader
+        -boolean showFooter
         +onEndPage(PdfWriter writer, Document document) void
+        +onStartPage(PdfWriter writer, Document document) void
+        -renderHeader(PdfContentByte canvas, Document document) void
+        -renderFooter(PdfContentByte canvas, Document document) void
     }
 
     interface PageSection {
-        <<interface>>
+        <<Functional Interface>>
         +render(Document document, PdfWriter writer) void
+        +getWidth() float
+        +getHeight() float
     }
 
     interface ReportSection {
-        <<interface>>
+        <<Functional Interface>>
         +render(Document document, PdfWriter writer) void
+        +getRequiredHeight() float
+        +canFit(float availableHeight) boolean
     }
 
     class SampleReportService {
+        <<Service Layer>>
+        -PdfReportBuilder reportBuilder
+        -Environment environment
         +generateSampleReport(OutputStream outputStream) void
         -createHeader() PageSection
         -createFooter() PageSection
         -createBody() ReportSection
+        -addReportMetadata() void
     }
 
     class SampleReportController {
+        <<REST Controller>>
         -SampleReportService sampleReportService
         +getSampleReport() ResponseEntity~Resource~
+        -createResponseEntity(String filename) ResponseEntity~Resource~
     }
 
-    PdfReportBuilder --> PageSection
-    PdfReportBuilder --> ReportSection
-    HeaderFooterPageEvent --> PageSection
-    SampleReportService --> PageSection
-    SampleReportService --> ReportSection
-    SampleReportController --> SampleReportService
+    class ReportConstants {
+        <<Utility Class>>
+        +String DEFAULT_FONT
+        +float DEFAULT_MARGIN
+        +float HEADER_HEIGHT
+        +float FOOTER_HEIGHT
+    }
 
-    note for PdfReportBuilder "Builder pattern para\nconstrucción de PDFs"
-    note for PageSection "Functional interface\npara header/footer"
-    note for ReportSection "Functional interface\npara contenido del reporte"
-    note for HeaderFooterPageEvent "Event handler de iText\npara headers/footers"
+    PdfReportBuilder --> PageSection : uses
+    PdfReportBuilder --> ReportSection : composes
+    PdfReportBuilder --> HeaderFooterPageEvent : configures
+    HeaderFooterPageEvent --> PageSection : renders
+    SampleReportService --> PdfReportBuilder : uses
+    SampleReportService --> PageSection : creates
+    SampleReportService --> ReportSection : creates
+    SampleReportController --> SampleReportService : calls
+    SampleReportService --> ReportConstants : references
+
+    note for PdfReportBuilder "Builder pattern para\nconstrucción flexible de PDFs\ncon iText 7"
+    note for PageSection "Functional interface\npara renderizar headers/footers\ndinámicos en cada página"
+    note for ReportSection "Functional interface\npara contenido principal del\nreporte con medición de altura"
+    note for HeaderFooterPageEvent "Event handler de iText\npara procesar cada página\nautomáticamente"
+    note for SampleReportService "Servicio que demuestra\nel uso del motor de reportes\npara generar PDFs completos"

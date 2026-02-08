@@ -4,7 +4,7 @@
 [![Documentation](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml/badge.svg)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml)
 [![Java](https://img.shields.io/badge/Java-25-red.svg)](https://www.oracle.com/java/technologies/javase/jdk25-archive-downloads.html)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.2-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Version](https://img.shields.io/badge/Version-2.1.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
+[![Version](https://img.shields.io/badge/Version-2.1.1-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
 
 Servicio de reportes para la plataforma Eterea: generación de reportes, notificaciones por email y gestión de documentos.
 

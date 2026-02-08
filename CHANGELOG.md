@@ -1,3 +1,12 @@
+## [2.1.1] - 2026-02-08
+- fix: Mejora en pipeline de documentación con Mermaid v10.9.1
+- fix: Corrección de manejo de errores en renderizado de diagramas
+- fix: Optimización de despliegue de diagramas en GitHub Pages
+- docs: Actualización de diagramas con mayor detalle y claridad
+- docs: Mejora en diagrama de componentes con descripciones extendidas
+- docs: Enriquecimiento de diagrama de secuencia con flujo completo
+- docs: Detallamiento de diagrama de clases con patrones y relaciones
+
 ## [2.1.0] - 2026-02-08
 - feat: Implementación completa de arquitectura hexagonal con puertos y adaptadores
 - feat: Nuevos casos de uso (GenerateInvoicePdfUseCase, SendInvoiceUseCase, GetInvoiceDataUseCase)
