@@ -1,3 +1,12 @@
+## [2.1.2] - 2026-02-08
+- fix: Mejora en pipeline de documentación con Mermaid v10.9.1
+- fix: Optimización de despliegue de diagramas en GitHub Pages
+- docs: Nuevo diagrama de clases para motor de reportes PDF
+- docs: Mejora en diagrama de componentes con arquitectura hexagonal detallada
+- docs: Enriquecimiento de diagrama de secuencia con flujo completo
+- docs: Detallamiento de diagrama de clases con patrones y relaciones
+- chore: Actualización de versión a 2.1.2
+
 ## [2.1.1] - 2026-02-08
 - fix: Mejora en pipeline de documentación con Mermaid v10.9.1
 - fix: Corrección de manejo de errores en renderizado de diagramas

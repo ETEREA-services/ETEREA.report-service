@@ -75,6 +75,7 @@ jobs:
               <div id="component-diagram" class="section"></div>
               <div id="class-diagram" class="section"></div>
               <div id="sequence-diagram" class="section"></div>
+              <div id="report-engine-diagram" class="section"></div>
               <div id="dependencies" class="section">
                   <h2>🌳 Grafo de Dependencias</h2>
                   <p>El siguiente es el árbol de dependencias completo del proyecto, generado por Maven.</p>
@@ -141,7 +142,8 @@ jobs:
                   const diagramConfigs = [
                       { id: 'component-diagram', path: 'diagrams/mermaid/component-diagram.mmd', title: '🏛️ Diagrama de Componentes' },
                       { id: 'class-diagram', path: 'diagrams/mermaid/make-factura-class-diagram.mmd', title: 'UML Diagrama de Clases' },
-                      { id: 'sequence-diagram', path: 'diagrams/mermaid/make-factura-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Creación de Factura' }
+                      { id: 'sequence-diagram', path: 'diagrams/mermaid/make-factura-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Creación de Factura' },
+                      { id: 'report-engine-diagram', path: 'diagrams/mermaid/report-engine-class-diagram.mmd', title: '⚙️ Diagrama de Clases: Motor de Reportes' }
                   ];
 
                   // Insert titles and mermaid divs first

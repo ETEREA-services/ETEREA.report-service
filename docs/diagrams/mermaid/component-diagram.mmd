@@ -2,11 +2,42 @@ flowchart TD
     subgraph "Eterea Platform"
         subgraph "eterea.report-service"
             A[Report Service<br/>PDF Generation<br/>Email Notifications]
+            
+            subgraph "Presentation Layer"
+                Controller[MakeFacturaController<br/>REST Endpoints]
+            end
+            
+            subgraph "Application Layer"
+                UseCase1[GenerateInvoicePdfUseCase<br/>PDF Generation Logic]
+                UseCase2[SendInvoiceUseCase<br/>Email Notification Logic]
+                UseCase3[GetInvoiceDataUseCase<br/>Data Retrieval Logic]
+            end
+            
+            subgraph "Infrastructure Layer"
+                Client[InvoiceDataClient<br/>Feign Client]
+                PdfService[FacturaPdfService<br/>iText PDF Generation]
+                Repository[InvoiceDataRepositoryImpl<br/>Data Access]
+            end
+            
+            subgraph "Report Engine"
+                PdfBuilder[PdfReportBuilder<br/>Builder Pattern]
+                PageEvents[HeaderFooterPageEvent<br/>iText Events]
+            end
         end
 
         subgraph "eterea.core-service"
             B[Core Service<br/>Business Logic<br/>Data Management]
         end
 
-        A -- Feign Client<br/>HTTP/REST --> B
+        Controller --> UseCase1
+        Controller --> UseCase2
+        UseCase1 --> Repository
+        UseCase1 --> PdfService
+        UseCase2 --> Repository
+        UseCase2 --> UseCase1
+        UseCase3 --> Repository
+        Repository --> Client
+        Client -- HTTP/REST --> B
+        PdfService --> PdfBuilder
+        PdfBuilder --> PageEvents
     end

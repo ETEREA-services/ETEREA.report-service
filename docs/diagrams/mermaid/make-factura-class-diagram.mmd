@@ -50,19 +50,8 @@ classDiagram
         +getInvoiceDataByClienteMovimientoId(Long clienteMovimientoId) InvoiceData
     }
 
-    MakeFacturaController --> SendInvoiceUseCase
-    MakeFacturaController --> GenerateInvoicePdfUseCase
-    SendInvoiceUseCase <|.. SendInvoiceUseCaseImpl
-    GenerateInvoicePdfUseCase <|.. GenerateInvoicePdfUseCaseImpl
-    SendInvoiceUseCaseImpl --> InvoiceDataRepository
-    GenerateInvoicePdfUseCaseImpl --> InvoiceDataRepository
-    GenerateInvoicePdfUseCaseImpl --> FacturaPdfService
-    InvoiceDataRepository <|.. InvoiceDataRepositoryImpl
-    InvoiceDataRepositoryImpl --> InvoiceDataClient
-    FacturaPdfService --> InvoiceDataService
-    InvoiceDataService --> InvoiceDataClient
-
-    interface InvoiceDataClient {
+    class InvoiceDataClient {
+        <<interface>>
         +getInvoiceDataByClienteMovimientoId(Long clienteMovimientoId) InvoiceData
     }
 
@@ -89,3 +78,15 @@ classDiagram
         <<record>>
         +String simbolo
     }
+
+    MakeFacturaController --> SendInvoiceUseCase
+    MakeFacturaController --> GenerateInvoicePdfUseCase
+    SendInvoiceUseCase <|.. SendInvoiceUseCaseImpl
+    GenerateInvoicePdfUseCase <|.. GenerateInvoicePdfUseCaseImpl
+    SendInvoiceUseCaseImpl --> InvoiceDataRepository
+    GenerateInvoicePdfUseCaseImpl --> InvoiceDataRepository
+    GenerateInvoicePdfUseCaseImpl --> FacturaPdfService
+    InvoiceDataRepository <|.. InvoiceDataRepositoryImpl
+    InvoiceDataRepositoryImpl --> InvoiceDataClient
+    FacturaPdfService --> InvoiceDataService
+    InvoiceDataService --> InvoiceDataClient
