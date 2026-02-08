@@ -4,19 +4,19 @@
 [![Documentation](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml/badge.svg)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml)
 [![Java](https://img.shields.io/badge/Java-25-red.svg)](https://www.oracle.com/java/technologies/javase/jdk25-archive-downloads.html)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.2-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Version](https://img.shields.io/badge/Version-2.0.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
+[![Version](https://img.shields.io/badge/Version-2.1.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
 
 Servicio de reportes para la plataforma Eterea: generación de reportes, notificaciones por email y gestión de documentos.
 
 ## Cambios recientes destacados
 
-- **Refactor arquitectural completo:** Migración a arquitectura hexagonal (DDD) con separación clara de capas (dominio, aplicación, infraestructura)
-- **Simplificación de API:** Reemplazo de múltiples clientes Feign por un solo InvoiceDataClient que agrega todos los datos de factura
-- **Eliminación de Kotlin:** Conversión de todos los DTOs y modelos de Kotlin a Java
-- **Mejora de FacturaPdfService:** Acepta directamente InvoiceData para mejor testabilidad
-- **Actualización de dependencias:** Spring Boot 4.0.2, Java 25, Spring Cloud 2025.1.0, SpringDoc OpenAPI 3.0.1
-- **Pipeline CI/CD actualizado:** Soporte para Java 25 y Eclipse Temurin 25 en Docker
-- **Diagramas Mermaid actualizados:** Reflejan la nueva arquitectura hexagonal
+- **Arquitectura hexagonal completa:** Implementación de puertos y adaptadores con separación clara de dominio, aplicación e infraestructura
+- **Motor de reportes reutilizable:** Nuevo PdfReportBuilder con soporte para headers/footers personalizados y page events
+- **Casos de uso modernizados:** Implementación de GenerateInvoicePdfUseCase, SendInvoiceUseCase con patrones DDD
+- **Modernización a records Java:** Conversión de modelos inmutables (Comprobante, ComprobanteAfip, Moneda) a records
+- **Servicio de reportes de ejemplo:** SampleReportService con demostración de capacidades del motor de PDF
+- **Correcciones CI/CD:** Pipeline actualizado para despliegue correcto de diagramas Mermaid
+- **Actualización de dependencias:** Adición de commons-fileupload 1.6.0 y mantenimiento de Spring Boot 4.0.2, Java 25
 
 ## Requisitos
 

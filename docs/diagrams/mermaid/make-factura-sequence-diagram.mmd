@@ -1,15 +1,17 @@
 sequenceDiagram
     participant C as MakeFacturaController
-    participant S as MakeFacturaService
-    participant P as FacturaPdfService
-    participant I as InvoiceDataService
+    participant G as GenerateInvoicePdfUseCase
+    participant R as InvoiceDataRepository
     participant F as InvoiceDataClient
+    participant P as FacturaPdfService
 
-    C->>P: makePdf(clienteMovimientoId)
-    P->>I: getInvoiceDataByClienteMovimientoId(clienteMovimientoId)
-    I->>F: getInvoiceDataByClienteMovimientoId(clienteMovimientoId)
-    F-->>I: InvoiceData
-    I-->>P: InvoiceData
-    P-->>C: filename
+    C->>G: generatePdf(clienteMovimientoId)
+    G->>R: findByClienteMovimientoId(clienteMovimientoId)
+    R->>F: getInvoiceDataByClienteMovimientoId(clienteMovimientoId)
+    F-->>R: InvoiceData
+    R-->>G: InvoiceData
+    G->>P: generatePdf(clienteMovimientoId, invoiceData)
+    P-->>G: filename
+    G-->>C: Resource (PDF)
 
-    Note over C,S,P,I,F: Generación de PDF con datos agregados
+    Note over C,G,R,F,P: Flujo hexagonal de generación de PDF

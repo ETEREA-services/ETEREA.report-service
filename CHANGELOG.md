@@ -1,3 +1,15 @@
+## [2.1.0] - 2026-02-08
+- feat: Implementación completa de arquitectura hexagonal con puertos y adaptadores
+- feat: Nuevos casos de uso (GenerateInvoicePdfUseCase, SendInvoiceUseCase, GetInvoiceDataUseCase)
+- feat: Motor de reportes PDF reutilizable (PdfReportBuilder, HeaderFooterPageEvent, PageSection)
+- feat: Servicio de reportes de ejemplo (SampleReportService, SampleReportController)
+- feat: Modernización de modelos a records Java (Comprobante, ComprobanteAfip, Moneda)
+- feat: Repositorio de datos de factura con patrón adaptador (InvoiceDataRepositoryImpl)
+- feat: Reorganización completa de paquetes de api.rest a estructura hexagonal
+- fix: Corrección en pipeline CI/CD para despliegue correcto de diagramas Mermaid
+- chore: Adición de dependencia commons-fileupload 1.6.0
+- docs: Actualización de estructura de paquetes en documentación
+
 ## [2.0.0] - 2026-01-31
 - feat: Refactor arquitectural completo a hexagonal (domain-driven design)
 - feat: Simplificación de API con InvoiceDataClient agregando datos de factura
