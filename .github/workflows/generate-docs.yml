@@ -22,10 +22,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 25
+      - name: Set up JDK 24
         uses: actions/setup-java@v4
         with:
-          java-version: '25'
+          java-version: '24'
           distribution: 'temurin'
           cache: maven
 
@@ -47,8 +47,8 @@ jobs:
           <head>
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Eterea Report Service - Documentación del Proyecto</title>
-              <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+              <title>Eterea Core Service - Documentación del Proyecto</title>
+              <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
               <style>
                   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 1200px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; }
                   a { color: #667eea; text-decoration: none; }
@@ -67,15 +67,28 @@ jobs:
           </head>
           <body>
               <div class="header">
-                  <h1>📋 Eterea Report Service - Documentación del Proyecto</h1>
-                  <p>Servicio encargado de generar reportes y facturas.</p>
+                  <h1>📋 Eterea Core Service - Documentación del Proyecto</h1>
+                  <p>Servicio encargado de la lógica de negocio central de Eterea.</p>
                   <p>Última actualización: <span id="update-date"></span></p>
               </div>
               <div id="stats" class="stats"></div>
-              <div id="component-diagram" class="section"></div>
-              <div id="class-diagram" class="section"></div>
-              <div id="sequence-diagram" class="section"></div>
-              <div id="report-engine-diagram" class="section"></div>
+
+               <div class="section">
+               <h2>Arquitectura General</h2>
+               <div id="component-diagram"></div>
+               </div>
+
+               <div class="section">
+               <h2>Dominio: Facturación</h2>
+               <div id="make-factura-class-diagram"></div>
+               <div id="make-factura-sequence-diagram" style="margin-top: 2rem;"></div>
+               </div>
+
+               <div class="section">
+                   <h2>Dominio: Motor de Reportes</h2>
+                   <div id="report-engine-class-diagram"></div>
+               </div>
+
               <div id="dependencies" class="section">
                   <h2>🌳 Grafo de Dependencias</h2>
                   <p>El siguiente es el árbol de dependencias completo del proyecto, generado por Maven.</p>
@@ -83,21 +96,8 @@ jobs:
               </div>
               <div id="milestones" class="section"></div>
               <div id="pull-requests" class="section"></div>
-              
-               <script>
-                   mermaid.initialize({
-                       startOnLoad: false,
-                       theme: 'default',
-                       themeVariables: {
-                           primaryColor: '#667eea',
-                           primaryTextColor: '#333',
-                           primaryBorderColor: '#667eea',
-                           lineColor: '#666',
-                           secondaryColor: '#f8f9fa',
-                           tertiaryColor: '#e9ecef'
-                       }
-                   });
-               </script>
+          
+              <script>mermaid.initialize({startOnLoad:true});</script>
               <script>
                   document.getElementById('update-date').textContent = new Date().toLocaleString('es-AR');
               </script>
@@ -138,13 +138,16 @@ jobs:
                   `;
                   document.getElementById('stats').innerHTML = statsHTML;
 
-                  // --- Diagrams ---
-                  const diagramConfigs = [
-                      { id: 'component-diagram', path: 'diagrams/mermaid/component-diagram.mmd', title: '🏛️ Diagrama de Componentes' },
-                      { id: 'class-diagram', path: 'diagrams/mermaid/make-factura-class-diagram.mmd', title: 'UML Diagrama de Clases' },
-                      { id: 'sequence-diagram', path: 'diagrams/mermaid/make-factura-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Creación de Factura' },
-                      { id: 'report-engine-diagram', path: 'diagrams/mermaid/report-engine-class-diagram.mmd', title: '⚙️ Diagrama de Clases: Motor de Reportes' }
-                  ];
+                   // --- Diagrams ---
+                   const diagramConfigs = [
+                       // General Architecture
+                       { id: 'component-diagram', path: 'diagrams/mermaid/component-diagram.mmd', title: '🏛️ Diagrama de Componentes' },
+                       // Billing Domain
+                       { id: 'make-factura-class-diagram', path: 'diagrams/mermaid/make-factura-class-diagram.mmd', title: 'UML Diagrama de Clases de Facturación' },
+                       { id: 'make-factura-sequence-diagram', path: 'diagrams/mermaid/make-factura-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Creación de Factura' },
+                       // Report Engine Domain
+                       { id: 'report-engine-class-diagram', path: 'diagrams/mermaid/report-engine-class-diagram.mmd', title: 'UML Diagrama de Clases del Motor de Reportes' }
+                    ];
 
                   // Insert titles and mermaid divs first
                   diagramConfigs.forEach(config => {
@@ -168,26 +171,18 @@ jobs:
                           }
                       });
 
-                       // Now, render all diagrams at once
-                       await mermaid.run({
-                           querySelector: '.mermaid'
-                       });
+                      // Now, render all diagrams at once
+                      await mermaid.run();
 
-                   } catch (error) {
-                       console.error('Error loading or rendering diagrams:', error);
-                       console.error('Error details:', error.message, error.stack);
-                       diagramConfigs.forEach(config => {
-                           const mermaidContainer = document.getElementById(`mermaid-${config.id}`);
-                           if (mermaidContainer) {
-                               mermaidContainer.innerHTML = `<div style="color: red; padding: 10px; border: 1px solid #dc3545; border-radius: 4px; background-color: #f8d7da;">
-                                   <strong>❌ Error al cargar el diagrama</strong><br>
-                                   Archivo: ${config.path}<br>
-                                   Error: ${error.message}<br>
-                                   <small>Ver consola para más detalles</small>
-                               </div>`;
-                           }
-                       });
-                   }
+                  } catch (error) {
+                      console.error('Error loading or rendering diagrams:', error);
+                      diagramConfigs.forEach(config => {
+                          const mermaidContainer = document.getElementById(`mermaid-${config.id}`);
+                          if (mermaidContainer) {
+                              mermaidContainer.textContent = `Error al cargar el diagrama desde ${config.path}.`;
+                          }
+                      });
+                  }
 
                   // --- Milestones ---
                   let milestonesHTML = '<h2>🎯 Milestones</h2>';
@@ -259,10 +254,10 @@ jobs:
           
           # Create a simple Home.md as a portal
           cat > Home.md << EOF
-          # 📋 Wiki del Proyecto Eterea Report Service
+          # 📋 Wiki del Proyecto Eterea Core Service
 
           Esta wiki sirve como un portal de acceso rápido a los recursos más importantes del proyecto.
-
+          
           Toda la **documentación detallada, interactiva y actualizada** se encuentra en nuestro sitio de **GitHub Pages**.
 
           ## ➡️ [Acceder a la Documentación Principal](https://$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]').github.io/$(echo ${{ github.repository }} | cut -d'/' -f2)/)
@@ -288,25 +283,8 @@ jobs:
 
       - name: Prepare artifact for deployment
         run: |
-           mkdir -p _site
-           cp -r docs/* _site/
-           # Ensure diagrams directory is included with all files
-           mkdir -p _site/diagrams/mermaid
-           if [ -d "docs/diagrams/mermaid" ]; then
-             cp -r docs/diagrams/mermaid/* _site/diagrams/mermaid/
-             echo "✅ Diagram files copied successfully"
-             ls -la _site/diagrams/mermaid/
-           else
-             echo "⚠️ Warning: diagrams/mermaid directory not found"
-           fi
-           # Verify required files exist
-           for diagram in "component-diagram.mmd" "make-factura-class-diagram.mmd" "make-factura-sequence-diagram.mmd" "report-engine-class-diagram.mmd"; do
-             if [ -f "_site/diagrams/mermaid/$diagram" ]; then
-               echo "✅ $diagram found"
-             else
-               echo "❌ $diagram missing"
-             fi
-           done
+          mkdir -p _site
+          mv docs/* _site/
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v3
         with:
