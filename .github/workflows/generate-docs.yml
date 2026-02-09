@@ -160,7 +160,10 @@ jobs:
                   // Fetch all diagram contents in parallel
                   try {
                       const responses = await Promise.all(diagramConfigs.map(config => fetch(config.path)));
-                      const texts = await Promise.all(responses.map(res => res.text()));
+                      const texts = await Promise.all(responses.map(async (res) => {
+                          if (!res.ok) throw new Error(`HTTP ${res.status} fetching ${res.url}`);
+                          return res.text();
+                      }));
 
                       // Populate divs with fetched content
                       texts.forEach((text, index) => {
@@ -284,7 +287,8 @@ jobs:
       - name: Prepare artifact for deployment
         run: |
           mkdir -p _site
-          mv docs/* _site/
+          cp -r docs/. _site/
+          touch _site/.nojekyll
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v3
         with:
