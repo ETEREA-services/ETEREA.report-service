@@ -12,7 +12,7 @@ classDiagram
         -boolean landscape
         +setPageSize(Rectangle pageSize) PdfReportBuilder
         +setOrientation(boolean landscape) PdfReportBuilder
-        +setMargins(float, float, float, float) PdfReportBuilder
+        +setMargins(float left, float right, float top, float bottom) PdfReportBuilder
         +setHeader(PageSection header) PdfReportBuilder
         +setFooter(PageSection footer) PdfReportBuilder
         +setBody(ReportSection body) PdfReportBuilder
