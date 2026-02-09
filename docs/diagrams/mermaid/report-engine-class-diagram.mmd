@@ -34,14 +34,14 @@ classDiagram
         -renderFooter(PdfContentByte canvas, Document document) void
     }
 
-    interface PageSection {
+    class PageSection {
         <<Functional Interface>>
         +render(Document document, PdfWriter writer) void
         +getWidth() float
         +getHeight() float
     }
 
-    interface ReportSection {
+    class ReportSection {
         <<Functional Interface>>
         +render(Document document, PdfWriter writer) void
         +getRequiredHeight() float
