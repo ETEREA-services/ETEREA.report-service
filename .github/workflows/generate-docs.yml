@@ -41,6 +41,19 @@ jobs:
           curl -s -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/${{ github.repository }}/issues?state=all&per_page=100" > issues.json
           curl -s -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/${{ github.repository }}/pulls?state=all&per_page=100" > prs.json
           
+          # Create diagrams JSON with jq to ensure proper escaping
+          jq -n \
+            --arg comp "$(cat docs/diagrams/mermaid/component-diagram.mmd)" \
+            --arg factClass "$(cat docs/diagrams/mermaid/make-factura-class-diagram.mmd)" \
+            --arg factSeq "$(cat docs/diagrams/mermaid/make-factura-sequence-diagram.mmd)" \
+            --arg repClass "$(cat docs/diagrams/mermaid/report-engine-class-diagram.mmd)" \
+            '{
+              "component-diagram": $comp,
+              "make-factura-class-diagram": $factClass,
+              "make-factura-sequence-diagram": $factSeq,
+              "report-engine-class-diagram": $repClass
+            }' > diagrams.json
+
           cat > docs/index.html << 'EOF'
           <!DOCTYPE html>
           <html lang="es">
@@ -109,6 +122,7 @@ jobs:
           const milestonesData = $(cat milestones.json);
           const issuesData = $(cat issues.json);
           const prsData = $(cat prs.json);
+          const diagramsData = $(cat diagrams.json);
           EOF
           
           cat >> docs/index.html << 'EOF'
@@ -141,12 +155,12 @@ jobs:
                    // --- Diagrams ---
                    const diagramConfigs = [
                        // General Architecture
-                       { id: 'component-diagram', path: 'diagrams/mermaid/component-diagram.mmd', title: '🏛️ Diagrama de Componentes' },
+                       { id: 'component-diagram', title: '🏛️ Diagrama de Componentes' },
                        // Billing Domain
-                       { id: 'make-factura-class-diagram', path: 'diagrams/mermaid/make-factura-class-diagram.mmd', title: 'UML Diagrama de Clases de Facturación' },
-                       { id: 'make-factura-sequence-diagram', path: 'diagrams/mermaid/make-factura-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Creación de Factura' },
+                       { id: 'make-factura-class-diagram', title: 'UML Diagrama de Clases de Facturación' },
+                       { id: 'make-factura-sequence-diagram', title: '🔄 Diagrama de Secuencia: Creación de Factura' },
                        // Report Engine Domain
-                       { id: 'report-engine-class-diagram', path: 'diagrams/mermaid/report-engine-class-diagram.mmd', title: 'UML Diagrama de Clases del Motor de Reportes' }
+                       { id: 'report-engine-class-diagram', title: 'UML Diagrama de Clases del Motor de Reportes' }
                     ];
 
                   // Insert titles and mermaid divs first
@@ -157,20 +171,17 @@ jobs:
                       }
                   });
 
-                  // Fetch all diagram contents in parallel
+                  // Populate divs with embedded content
                   try {
-                      const responses = await Promise.all(diagramConfigs.map(config => fetch(config.path)));
-                      const texts = await Promise.all(responses.map(async (res) => {
-                          if (!res.ok) throw new Error(`HTTP ${res.status} fetching ${res.url}`);
-                          return res.text();
-                      }));
-
-                      // Populate divs with fetched content
-                      texts.forEach((text, index) => {
-                          const config = diagramConfigs[index];
+                      diagramConfigs.forEach(config => {
                           const mermaidContainer = document.getElementById(`mermaid-${config.id}`);
                           if (mermaidContainer) {
-                              mermaidContainer.textContent = text;
+                              if (diagramsData[config.id]) {
+                                  mermaidContainer.textContent = diagramsData[config.id];
+                              } else {
+                                  mermaidContainer.textContent = 'Diagrama no encontrado.';
+                                  console.error(`Diagram data missing for id: ${config.id}`);
+                              }
                           }
                       });
 
@@ -181,8 +192,8 @@ jobs:
                       console.error('Error loading or rendering diagrams:', error);
                       diagramConfigs.forEach(config => {
                           const mermaidContainer = document.getElementById(`mermaid-${config.id}`);
-                          if (mermaidContainer) {
-                              mermaidContainer.textContent = `Error al cargar el diagrama desde ${config.path}.`;
+                          if (mermaidContainer && mermaidContainer.textContent === 'Cargando diagrama...') {
+                              mermaidContainer.textContent = `Error al renderizar el diagrama: ${error.message}`;
                           }
                       });
                   }
