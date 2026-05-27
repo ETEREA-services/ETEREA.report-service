@@ -1,5 +1,6 @@
 package eterea.report.factura.domain.model;
 
+import eterea.report.tool.Jsonifier;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -25,4 +26,7 @@ public class ClienteMovimiento {
     private Comprobante comprobante;
     private List<ArticuloMovimiento> articulos;
 
+    public String jsonify() {
+        return Jsonifier.builder(this).build();
+    }
 }

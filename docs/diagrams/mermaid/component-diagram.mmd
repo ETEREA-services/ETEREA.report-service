@@ -15,13 +15,13 @@ flowchart TD
             
             subgraph "Infrastructure Layer"
                 Client[InvoiceDataClient<br/>Feign Client]
-                PdfService[FacturaPdfService<br/>iText PDF Generation]
+                PdfService[FacturaPdfService<br/>OpenPDF Generation]
                 Repository[InvoiceDataRepositoryImpl<br/>Data Access]
             end
             
             subgraph "Report Engine"
                 PdfBuilder[PdfReportBuilder<br/>Builder Pattern]
-                PageEvents[HeaderFooterPageEvent<br/>iText Events]
+                PageEvents[HeaderFooterPageEvent<br/>OpenPDF Events]
             end
         end
 

@@ -79,6 +79,83 @@ classDiagram
         +String simbolo
     }
 
+    class ClienteMovimiento {
+        -String letraComprobante
+        -Integer puntoVenta
+        -Long numeroComprobante
+        -BigDecimal neto
+        -BigDecimal importe
+        -Empresa empresa
+        -Cliente cliente
+        -Moneda moneda
+        -Comprobante comprobante
+        -List~ArticuloMovimiento~ articulos
+        +jsonify() String
+    }
+
+    class ArticuloMovimiento {
+        -BigDecimal cantidad
+        -BigDecimal precioUnitarioSinIva
+        -BigDecimal precioUnitarioConIva
+        -BigDecimal precioTotalSinIva
+        -BigDecimal precioTotalConIva
+        -Articulo articulo
+        -ConceptoFacturado conceptoFacturado
+    }
+
+    class Empresa {
+        -String cuit
+        -String razonSocial
+        -String nombreFantasia
+    }
+
+    class Cliente {
+        -Long clienteId
+        -String razonSocial
+        -String domicilio
+    }
+
+    class Articulo {
+        -Long articuloId
+        -String nombre
+        -String codigo
+    }
+
+    class ConceptoFacturado {
+        -Integer conceptoFacturadoId
+        -String label
+    }
+
+    class RegistroCae {
+        -Long registroCaeId
+        -Integer puntoVenta
+        -Long numeroComprobante
+        -String cae
+        -String fechaVencimiento
+    }
+
+    class CodigoQR {
+        -Integer ver
+        -String fecha
+        -String cuit
+        -Integer ptoVta
+        -Integer tipoCmp
+        -Long nroCmp
+    }
+
+    class Jsonifier {
+        <<Utility>>
+        +builder(T object) Builder~T~
+    }
+
+    class Jsonifier_Builder {
+        <<Builder>>
+        -T object
+        -boolean prettyPrint
+        +pretty(boolean pretty) Builder~T~
+        +build() String
+    }
+
     MakeFacturaController --> SendInvoiceUseCase
     MakeFacturaController --> GenerateInvoicePdfUseCase
     SendInvoiceUseCase <|.. SendInvoiceUseCaseImpl
@@ -90,3 +167,14 @@ classDiagram
     InvoiceDataRepositoryImpl --> InvoiceDataClient
     FacturaPdfService --> InvoiceDataService
     InvoiceDataService --> InvoiceDataClient
+    InvoiceData --> ClienteMovimiento
+    InvoiceData --> RegistroCae
+    ClienteMovimiento --> ArticuloMovimiento : contiene
+    ClienteMovimiento --> Empresa
+    ClienteMovimiento --> Cliente
+    ClienteMovimiento --> Moneda
+    ClienteMovimiento --> Comprobante
+    ClienteMovimiento ..> Jsonifier : <<use>>
+    ArticuloMovimiento --> Articulo
+    ArticuloMovimiento --> ConceptoFacturado
+    Jsonifier --> Jsonifier_Builder : crea

@@ -23,7 +23,7 @@ classDiagram
     }
 
     class HeaderFooterPageEvent {
-        <<iText Page Event>>
+        <<OpenPDF Page Event>>
         -PageSection header
         -PageSection footer
         -boolean showHeader
@@ -84,8 +84,8 @@ classDiagram
     SampleReportController --> SampleReportService : calls
     SampleReportService --> ReportConstants : references
 
-    note for PdfReportBuilder "Builder pattern para\nconstrucción flexible de PDFs\ncon iText 7"
+    note for PdfReportBuilder "Builder pattern para\nconstrucción flexible de PDFs\ncon OpenPDF"
     note for PageSection "Functional interface\npara renderizar headers/footers\ndinámicos en cada página"
     note for ReportSection "Functional interface\npara contenido principal del\nreporte con medición de altura"
-    note for HeaderFooterPageEvent "Event handler de iText\npara procesar cada página\nautomáticamente"
+    note for HeaderFooterPageEvent "Event handler de OpenPDF\npara procesar cada página\nautomáticamente"
     note for SampleReportService "Servicio que demuestra\nel uso del motor de reportes\npara generar PDFs completos"
