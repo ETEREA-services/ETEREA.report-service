@@ -18,7 +18,7 @@ sequenceDiagram
     Repository-->>UseCase: InvoiceData
     
     UseCase->>Service: generatePdf(clienteMovimientoId, invoiceData)
-    Service->>Service: Create PDF with iText
+    Service->>Service: Create PDF with OpenPDF
     Service-->>UseCase: filename.pdf
     
     UseCase-->>Controller: Resource (PDF)

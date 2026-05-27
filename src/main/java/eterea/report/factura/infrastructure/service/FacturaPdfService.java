@@ -57,6 +57,7 @@ public class FacturaPdfService {
             invoiceData = invoiceDataService.getInvoiceDataByClienteMovimientoId(clienteMovimientoId);
         }
         var clienteMovimiento = invoiceData.getClienteMovimiento();
+        log.debug("cliente movimiento: {}", clienteMovimiento.jsonify());
         var empresa = clienteMovimiento.getEmpresa();
         var cliente = clienteMovimiento.getCliente();
         var moneda = clienteMovimiento.getMoneda();
@@ -78,7 +79,7 @@ public class FacturaPdfService {
             CodigoQR codigoQR = new CodigoQR();
             codigoQR.setVer(1);
             codigoQR.setFecha(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(ToolService.stringDDMMYYYY2OffsetDateTime(Objects.requireNonNull(registroCae.getFecha()))));
-            codigoQR.setCuit(Objects.requireNonNull(empresa.getCuit()).replaceAll("-", ""));
+            codigoQR.setCuit(Objects.requireNonNull(empresa.getCuit()).replace("-", ""));
             codigoQR.setPtoVta(registroCae.getPuntoVenta());
             codigoQR.setTipoCmp(registroCae.getComprobanteId());
             codigoQR.setNroCmp(registroCae.getNumeroComprobante());
@@ -352,10 +353,7 @@ public class FacturaPdfService {
                 cell = new PdfPCell();
                 cell.setBorder(Rectangle.NO_BORDER);
                 paragraph = new Paragraph(
-                        new DecimalFormat("#,##0.00").format(Math.abs(articuloMovimiento.getCantidad()
-                                .multiply((discriminar ? articuloMovimiento.getPrecioUnitarioSinIva()
-                                        : articuloMovimiento.getPrecioUnitarioConIva()))
-                                .doubleValue())),
+                        new DecimalFormat("#,##0.00").format(Math.abs((discriminar ? articuloMovimiento.getPrecioTotalSinIva() : articuloMovimiento.getPrecioTotalConIva()).doubleValue())),
                         new Font(Font.HELVETICA, 8, Font.NORMAL));
                 paragraph.setAlignment(Element.ALIGN_RIGHT);
                 cell.addElement(paragraph);

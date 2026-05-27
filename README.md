@@ -1,15 +1,22 @@
 # Eterea Report Service
 
 [![ETEREA.report-service Build JVM Image](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml)
-[![Documentation](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml/badge.svg)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/pages.yml)
+[![Documentation](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/generate-docs.yml/badge.svg)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/generate-docs.yml)
 [![Java](https://img.shields.io/badge/Java-25-red.svg)](https://www.oracle.com/java/technologies/javase/jdk25-archive-downloads.html)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.2-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Version](https://img.shields.io/badge/Version-2.1.2-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.6-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Version](https://img.shields.io/badge/Version-2.2.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
 
 Servicio de reportes para la plataforma Eterea: generación de reportes, notificaciones por email y gestión de documentos.
 
-## Cambios recientes destacados
+## Cambios recientes destacados (v2.2.0)
 
+- **Serializador JSON utilitario:** Nuevo Jsonifier con patrón Builder para depuración de modelos
+- **Campos extendidos en facturación:** precioTotalSinIva/precioTotalConIva en ArticuloMovimiento y método jsonify() en ClienteMovimiento
+- **Corrección en cálculo de PDF:** Uso de precios totales precalculados en FacturaPdfService
+- **Actualización de dependencias:** Spring Boot 4.0.6, OpenPDF 3.0.3, SpringDoc OpenAPI 3.0.2
+- **Modernización de CI/CD:** Actions actualizadas a últimas versiones (checkout v6, setup-java v5, cache v5, etc.)
+
+### v2.1.2
 - **Arquitectura hexagonal completa:** Implementación de puertos y adaptadores con separación clara de dominio, aplicación e infraestructura
 - **Motor de reportes reutilizable:** Nuevo PdfReportBuilder con soporte para headers/footers personalizados y page events
 - **Casos de uso modernizados:** Implementación de GenerateInvoicePdfUseCase, SendInvoiceUseCase con patrones DDD
@@ -37,22 +44,15 @@ Servicio de reportes para la plataforma Eterea: generación de reportes, notific
    mvn clean install
    ```
 3. Configura la aplicación editando `src/main/resources/bootstrap.yml` y `config/eterea.properties`.
+4. Ejecuta la aplicación:
+   ```bash
+   mvn spring-boot:run
+   ```
 
 ## Documentación y diagramas
 
 - Diagramas actualizados en `docs/diagrams/mermaid/`.
 - Documentación automática publicada vía GitHub Pages.
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-```
-
-5. Run the application:
-```bash
-mvn spring-boot:run
-```
 
 ## Configuration
 
