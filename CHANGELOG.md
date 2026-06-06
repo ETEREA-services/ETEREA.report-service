@@ -1,15 +1,22 @@
-## [2.2.0] - 2026-05-27
+## [2.2.0] - 2026-06-06
 - feat: Nuevo serializador JSON utilitario (Jsonifier) con patrón Builder
 - feat: Nuevos campos precioTotalSinIva/precioTotalConIva en ArticuloMovimiento
 - feat: Método jsonify() en ClienteMovimiento para depuración
+- feat: Método jsonify() en InvoiceData para depuración
 - fix: Corrección en cálculo de totales por artículo en FacturaPdfService
 - fix: Optimización de replaceAll a replace en limpieza de CUIT
+- fix: Propagación correcta del nombre de archivo en Resource PDF para adjuntos de email
+- fix: Reemplazo de FileSystemResource por Resource directo en envío de email
+- fix: Mejora en orden de operaciones (generación PDF antes de consulta de datos)
+- fix: Seguridad nula en extractFilename
+- refactor: Simplificación de ResponseEntity en MakeFacturaController
 - deps: Actualización Spring Boot 4.0.2 → 4.0.6
 - deps: Actualización OpenPDF 3.0.0 → 3.0.3
 - deps: Actualización SpringDoc OpenAPI 3.0.1 → 3.0.2
 - ci: Actualización masiva de GitHub Actions a sus últimas versiones
 - ci: Simplificación del artefacto de Pages (deploy directo desde docs/)
 - docs: Actualización de diagramas de clases con nuevos modelos
+- chore: Adición de logs de depuración en casos de uso y controlador
 
 ## [2.1.2] - 2026-02-08
 - fix: Mejora en pipeline de documentación con Mermaid v10.9.1

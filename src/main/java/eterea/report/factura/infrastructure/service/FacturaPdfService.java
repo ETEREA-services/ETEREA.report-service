@@ -51,7 +51,7 @@ public class FacturaPdfService {
     }
 
     public String generatePdf(Long clienteMovimientoId, InvoiceData invoiceData) {
-
+        log.debug("\n\nProcessing FacturaPdfService.generatePdf\n\n");
         Image imageQr = null;
         if (invoiceData == null) {
             invoiceData = invoiceDataService.getInvoiceDataByClienteMovimientoId(clienteMovimientoId);

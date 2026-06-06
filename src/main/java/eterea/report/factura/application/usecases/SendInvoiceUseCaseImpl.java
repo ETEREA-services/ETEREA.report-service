@@ -7,12 +7,11 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -36,21 +35,22 @@ public class SendInvoiceUseCaseImpl implements SendInvoiceUseCase {
 
     @Override
     public String sendInvoice(Long clienteMovimientoId, String email) throws MessagingException {
+        log.debug("\n\nProcessing SendInvoiceUseCaseImpl.sendInvoice\n\n");
 
         if (email.equals("daniel.quinterospinto@gmail.com")) {
             email = "";
         }
 
-        var invoiceData = invoiceDataRepository.findByClienteMovimientoId(clienteMovimientoId);
-
         // Genera PDF
-        var pdfResource = generateInvoicePdfUseCase.generatePdf(clienteMovimientoId);
+        Resource pdfResource = generateInvoicePdfUseCase.generatePdf(clienteMovimientoId);
         String filenameFactura = extractFilename(pdfResource);
         log.info("filenameFactura -> {}", filenameFactura);
-        if (filenameFactura.isEmpty()) {
+        if (filenameFactura == null || filenameFactura.isEmpty()) {
             return "ERROR: Sin Factura para ENVIAR";
         }
 
+        var invoiceData = invoiceDataRepository.findByClienteMovimientoId(clienteMovimientoId);
+        log.debug("\n\nInvoice Data: \n\n" + invoiceData.jsonify());
         var clienteMovimiento = invoiceData.getClienteMovimiento();
         String data = getTextForEmail();
 
@@ -98,8 +98,7 @@ public class SendInvoiceUseCaseImpl implements SendInvoiceUseCase {
             helper.setReplyTo(replyToAddress);
             helper.setSubject("Envío Automático de Comprobante -> " + filenameFactura);
 
-            FileSystemResource fileRecibo = new FileSystemResource(Objects.requireNonNull(pdfResource.getFilename()));
-            helper.addAttachment(filenameFactura, fileRecibo);
+            helper.addAttachment(filenameFactura, pdfResource);
 
             log.info("Enviando correo a: {} con BCC configurado", addresses);
             javaMailSender.send(message);
@@ -110,7 +109,7 @@ public class SendInvoiceUseCaseImpl implements SendInvoiceUseCase {
         }
     }
 
-    private String extractFilename(org.springframework.core.io.Resource resource) {
+    private String extractFilename(Resource resource) {
         try {
             return resource.getFilename();
         } catch (Exception e) {

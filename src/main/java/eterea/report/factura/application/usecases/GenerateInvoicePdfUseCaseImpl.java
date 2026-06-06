@@ -23,12 +23,20 @@ public class GenerateInvoicePdfUseCaseImpl implements GenerateInvoicePdfUseCase 
 
     @Override
     public Resource generatePdf(Long clienteMovimientoId) {
+        log.debug("\n\nProcessing GenerateInvoicePdfUseCaseImpl.generatePdf\n\n");
         try {
             var invoiceData = invoiceDataRepository.findByClienteMovimientoId(clienteMovimientoId);
+            log.debug("\n\nInvoice data found: {}\n\n", invoiceData.jsonify());
             String filename = facturaPdfService.generatePdf(clienteMovimientoId, invoiceData);
+            log.debug("\n\nInvoice filename: {}\n\n", filename);
             File file = new File(filename);
             byte[] fileContent = Files.readAllBytes(file.toPath());
-            return new ByteArrayResource(fileContent);
+            return new ByteArrayResource(fileContent) {
+                @Override
+                public String getFilename() {
+                    return file.getName();
+                }
+            };
         } catch (IOException e) {
             log.error("PDF file not found for clienteMovimientoId: {}", clienteMovimientoId, e);
             throw new RuntimeException("PDF file not found", e);
