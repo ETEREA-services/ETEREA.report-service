@@ -4,9 +4,9 @@ import eterea.report.factura.domain.ports.in.GenerateInvoicePdfUseCase;
 import eterea.report.factura.domain.ports.in.SendInvoiceUseCase;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/report/makeFactura")
 @RequiredArgsConstructor
+@Slf4j
 public class MakeFacturaController {
 
     private final SendInvoiceUseCase sendInvoiceUseCase;
@@ -44,7 +45,8 @@ public class MakeFacturaController {
 
     @GetMapping("/send/{clienteMovimientoId}/{email}")
     public ResponseEntity<String> send(@PathVariable Long clienteMovimientoId, @PathVariable String email) throws MessagingException {
-        return new ResponseEntity<>(sendInvoiceUseCase.sendInvoice(clienteMovimientoId, email), HttpStatus.OK);
+        log.debug("\n\nProcessing MakeFacturaController.send\n\n");
+        return ResponseEntity.ok(sendInvoiceUseCase.sendInvoice(clienteMovimientoId, email));
     }
 
 }

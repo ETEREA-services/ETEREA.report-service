@@ -11,8 +11,9 @@ Servicio de reportes para la plataforma Eterea: generación de reportes, notific
 ## Cambios recientes destacados (v2.2.0)
 
 - **Serializador JSON utilitario:** Nuevo Jsonifier con patrón Builder para depuración de modelos
-- **Campos extendidos en facturación:** precioTotalSinIva/precioTotalConIva en ArticuloMovimiento y método jsonify() en ClienteMovimiento
+- **Campos extendidos en facturación:** precioTotalSinIva/precioTotalConIva en ArticuloMovimiento y métodos jsonify() en ClienteMovimiento e InvoiceData
 - **Corrección en cálculo de PDF:** Uso de precios totales precalculados en FacturaPdfService
+- **Corrección en adjuntos de email:** Propagación correcta del nombre de archivo en Resource PDF y reemplazo de FileSystemResource por Resource directo
 - **Actualización de dependencias:** Spring Boot 4.0.6, OpenPDF 3.0.3, SpringDoc OpenAPI 3.0.2
 - **Modernización de CI/CD:** Actions actualizadas a últimas versiones (checkout v6, setup-java v5, cache v5, etc.)
 
