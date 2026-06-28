@@ -3,12 +3,16 @@
 [![ETEREA.report-service Build JVM Image](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/maven.yml)
 [![Documentation](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/generate-docs.yml/badge.svg)](https://github.com/ETEREA-services/ETEREA.report-service/actions/workflows/generate-docs.yml)
 [![Java](https://img.shields.io/badge/Java-25-red.svg)](https://www.oracle.com/java/technologies/javase/jdk25-archive-downloads.html)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.6-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Version](https://img.shields.io/badge/Version-2.2.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Version](https://img.shields.io/badge/Version-2.2.1-blue.svg)](https://github.com/ETEREA-services/ETEREA.report-service)
 
 Servicio de reportes para la plataforma Eterea: generación de reportes, notificaciones por email y gestión de documentos.
 
-## Cambios recientes destacados (v2.2.0)
+## Cambios recientes destacados (v2.2.1)
+
+- **Actualización de dependencias:** Spring Boot 4.0.6 → 4.1.0, Spring Cloud 2025.1.0 → 2025.1.2, OpenPDF 3.0.3 → 3.0.5, SpringDoc OpenAPI 3.0.2 → 3.0.3
+
+### v2.2.0
 
 - **Serializador JSON utilitario:** Nuevo Jsonifier con patrón Builder para depuración de modelos
 - **Campos extendidos en facturación:** precioTotalSinIva/precioTotalConIva en ArticuloMovimiento y métodos jsonify() en ClienteMovimiento e InvoiceData
