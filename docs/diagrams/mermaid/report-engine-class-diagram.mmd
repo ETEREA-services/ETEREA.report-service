@@ -66,14 +66,6 @@ classDiagram
         -createResponseEntity(String filename) ResponseEntity~Resource~
     }
 
-    class ReportConstants {
-        <<Utility Class>>
-        +String DEFAULT_FONT
-        +float DEFAULT_MARGIN
-        +float HEADER_HEIGHT
-        +float FOOTER_HEIGHT
-    }
-
     PdfReportBuilder --> PageSection : uses
     PdfReportBuilder --> ReportSection : composes
     PdfReportBuilder --> HeaderFooterPageEvent : configures
@@ -82,7 +74,6 @@ classDiagram
     SampleReportService --> PageSection : creates
     SampleReportService --> ReportSection : creates
     SampleReportController --> SampleReportService : calls
-    SampleReportService --> ReportConstants : references
 
     note for PdfReportBuilder "Builder pattern para\nconstrucción flexible de PDFs\ncon OpenPDF"
     note for PageSection "Functional interface\npara renderizar headers/footers\ndinámicos en cada página"

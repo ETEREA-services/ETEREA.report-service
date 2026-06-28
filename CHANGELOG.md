@@ -1,3 +1,9 @@
+## [2.2.1] - 2026-06-28
+- deps: Actualización Spring Boot 4.0.6 → 4.1.0
+- deps: Actualización Spring Cloud 2025.1.0 → 2025.1.2
+- deps: Actualización OpenPDF 3.0.3 → 3.0.5
+- deps: Actualización SpringDoc OpenAPI 3.0.2 → 3.0.3
+
 ## [2.2.0] - 2026-06-06
 - feat: Nuevo serializador JSON utilitario (Jsonifier) con patrón Builder
 - feat: Nuevos campos precioTotalSinIva/precioTotalConIva en ArticuloMovimiento
